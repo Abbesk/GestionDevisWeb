@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="usererpModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="utilisateur">
+          <Key>
+            <PropertyRef Name="codeuser" />
+          </Key>
+          <Property Name="codeuser" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="30" />
+          <Property Name="motpasse" Type="varchar" MaxLength="16" />
+          <Property Name="type" Type="varchar" MaxLength="20" />
+          <Property Name="jnlactif" Type="varchar" MaxLength="1" />
+          <Property Name="prog1" Type="varchar" MaxLength="1" />
+          <Property Name="prog2" Type="varchar" MaxLength="1" />
+          <Property Name="prog3" Type="varchar" MaxLength="1" />
+          <Property Name="prog4" Type="varchar" MaxLength="1" />
+          <Property Name="bloque" Type="varchar" MaxLength="1" />
+          <Property Name="actif" Type="varchar" MaxLength="1" />
+          <Property Name="numvol" Type="varchar" MaxLength="12" />
+          <Property Name="socutil" Type="varchar" MaxLength="8" />
+          <Property Name="etatbcf" Type="varchar" MaxLength="1" />
+          <Property Name="etatbcc" Type="varchar" MaxLength="1" />
+          <Property Name="etatcl" Type="varchar" MaxLength="1" />
+          <Property Name="etatfr" Type="varchar" MaxLength="1" />
+          <Property Name="etatbe" Type="varchar" MaxLength="1" />
+          <Property Name="etatvente" Type="varchar" MaxLength="1" />
+          <Property Name="etatdemachat" Type="varchar" MaxLength="1" />
+          <Property Name="vente" Type="varchar" MaxLength="1" />
+          <Property Name="achat" Type="varchar" MaxLength="1" />
+          <Property Name="client" Type="varchar" MaxLength="1" />
+          <Property Name="frs" Type="varchar" MaxLength="1" />
+          <Property Name="bcc" Type="varchar" MaxLength="1" />
+          <Property Name="bcf" Type="varchar" MaxLength="1" />
+          <Property Name="stat" Type="varchar" MaxLength="1" />
+          <Property Name="acces" Type="varchar" MaxLength="1" />
+          <Property Name="afftot" Type="varchar" MaxLength="1" />
+          <Property Name="socutilclot" Type="varchar" MaxLength="8" />
+          <Property Name="directeur" Type="varchar" MaxLength="2" />
+          <Property Name="etatmarge" Type="varchar" MaxLength="1" />
+          <Property Name="exercice" Type="varchar" MaxLength="4" />
+          <Property Name="etatimport" Type="varchar" MaxLength="1" />
+          <Property Name="etatbestk" Type="varchar" MaxLength="1" />
+          <Property Name="Etatbcfstk" Type="varchar" MaxLength="1" />
+          <Property Name="etatfrstk" Type="varchar" MaxLength="1" />
+          <Property Name="etatimportstk" Type="varchar" MaxLength="1" />
+          <Property Name="etatbccstk" Type="varchar" MaxLength="1" />
+          <Property Name="etatimmo" Type="varchar" MaxLength="1" />
+          <Property Name="acceclot" Type="varchar" MaxLength="1" />
+          <Property Name="BL" Type="varchar" MaxLength="1" />
+          <Property Name="FC" Type="varchar" MaxLength="1" />
+          <Property Name="TICKCAIS" Type="varchar" MaxLength="1" />
+          <Property Name="GESTBE" Type="varchar" MaxLength="1" />
+          <Property Name="impbarre" Type="varchar" MaxLength="1" />
+          <Property Name="PARAM" Type="varchar" MaxLength="1" />
+          <Property Name="mp1" Type="varchar" MaxLength="16" />
+          <Property Name="mp2" Type="varchar" MaxLength="16" />
+          <Property Name="mp3" Type="varchar" MaxLength="16" />
+          <Property Name="mp4" Type="varchar" MaxLength="16" />
+          <Property Name="mp5" Type="varchar" MaxLength="16" />
+          <Property Name="dernacce" Type="date" />
+          <Property Name="nbrjr" Type="int" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="usererpModelStoreContainer">
+          <EntitySet Name="utilisateur" EntityType="Self.utilisateur" Schema="usererp" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="usererpModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="utilisateur">
+          <Key>
+            <PropertyRef Name="codeuser" />
+          </Key>
+          <Property Name="codeuser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="motpasse" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="jnlactif" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="prog1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="prog2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="prog3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="prog4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="bloque" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="actif" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="numvol" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="socutil" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="etatbcf" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatbcc" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatcl" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatfr" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatbe" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatvente" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatdemachat" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="vente" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="achat" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="client" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="frs" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="bcc" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="bcf" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="stat" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="acces" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="afftot" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="socutilclot" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="directeur" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="etatmarge" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="exercice" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="etatimport" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatbestk" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Etatbcfstk" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatfrstk" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatimportstk" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatbccstk" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="etatimmo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="acceclot" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="BL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FC" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TICKCAIS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="GESTBE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="impbarre" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PARAM" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="mp1" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="mp2" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="mp3" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="mp4" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="mp5" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="dernacce" Type="DateTime" />
+          <Property Name="nbrjr" Type="Int32" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="usererpEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="utilisateur" EntityType="Self.utilisateur" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="usererpModelStoreContainer" CdmEntityContainer="usererpEntities">
+          <EntitySetMapping Name="utilisateur">
+            <EntityTypeMapping TypeName="usererpModel.utilisateur">
+              <MappingFragment StoreEntitySet="utilisateur">
+                <ScalarProperty Name="codeuser" ColumnName="codeuser" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="motpasse" ColumnName="motpasse" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="jnlactif" ColumnName="jnlactif" />
+                <ScalarProperty Name="prog1" ColumnName="prog1" />
+                <ScalarProperty Name="prog2" ColumnName="prog2" />
+                <ScalarProperty Name="prog3" ColumnName="prog3" />
+                <ScalarProperty Name="prog4" ColumnName="prog4" />
+                <ScalarProperty Name="bloque" ColumnName="bloque" />
+                <ScalarProperty Name="actif" ColumnName="actif" />
+                <ScalarProperty Name="numvol" ColumnName="numvol" />
+                <ScalarProperty Name="socutil" ColumnName="socutil" />
+                <ScalarProperty Name="etatbcf" ColumnName="etatbcf" />
+                <ScalarProperty Name="etatbcc" ColumnName="etatbcc" />
+                <ScalarProperty Name="etatcl" ColumnName="etatcl" />
+                <ScalarProperty Name="etatfr" ColumnName="etatfr" />
+                <ScalarProperty Name="etatbe" ColumnName="etatbe" />
+                <ScalarProperty Name="etatvente" ColumnName="etatvente" />
+                <ScalarProperty Name="etatdemachat" ColumnName="etatdemachat" />
+                <ScalarProperty Name="vente" ColumnName="vente" />
+                <ScalarProperty Name="achat" ColumnName="achat" />
+                <ScalarProperty Name="client" ColumnName="client" />
+                <ScalarProperty Name="frs" ColumnName="frs" />
+                <ScalarProperty Name="bcc" ColumnName="bcc" />
+                <ScalarProperty Name="bcf" ColumnName="bcf" />
+                <ScalarProperty Name="stat" ColumnName="stat" />
+                <ScalarProperty Name="acces" ColumnName="acces" />
+                <ScalarProperty Name="afftot" ColumnName="afftot" />
+                <ScalarProperty Name="socutilclot" ColumnName="socutilclot" />
+                <ScalarProperty Name="directeur" ColumnName="directeur" />
+                <ScalarProperty Name="etatmarge" ColumnName="etatmarge" />
+                <ScalarProperty Name="exercice" ColumnName="exercice" />
+                <ScalarProperty Name="etatimport" ColumnName="etatimport" />
+                <ScalarProperty Name="etatbestk" ColumnName="etatbestk" />
+                <ScalarProperty Name="Etatbcfstk" ColumnName="Etatbcfstk" />
+                <ScalarProperty Name="etatfrstk" ColumnName="etatfrstk" />
+                <ScalarProperty Name="etatimportstk" ColumnName="etatimportstk" />
+                <ScalarProperty Name="etatbccstk" ColumnName="etatbccstk" />
+                <ScalarProperty Name="etatimmo" ColumnName="etatimmo" />
+                <ScalarProperty Name="acceclot" ColumnName="acceclot" />
+                <ScalarProperty Name="BL" ColumnName="BL" />
+                <ScalarProperty Name="FC" ColumnName="FC" />
+                <ScalarProperty Name="TICKCAIS" ColumnName="TICKCAIS" />
+                <ScalarProperty Name="GESTBE" ColumnName="GESTBE" />
+                <ScalarProperty Name="impbarre" ColumnName="impbarre" />
+                <ScalarProperty Name="PARAM" ColumnName="PARAM" />
+                <ScalarProperty Name="mp1" ColumnName="mp1" />
+                <ScalarProperty Name="mp2" ColumnName="mp2" />
+                <ScalarProperty Name="mp3" ColumnName="mp3" />
+                <ScalarProperty Name="mp4" ColumnName="mp4" />
+                <ScalarProperty Name="mp5" ColumnName="mp5" />
+                <ScalarProperty Name="dernacce" ColumnName="dernacce" />
+                <ScalarProperty Name="nbrjr" ColumnName="nbrjr" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

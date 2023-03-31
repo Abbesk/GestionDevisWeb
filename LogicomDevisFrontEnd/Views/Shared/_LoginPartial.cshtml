@@ -1,0 +1,12 @@
+﻿
+
+@if (Session["name"] != null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+        <li>@Html.ActionLink("Bonjour "+@Session["name"]+" !", "Index", "Home", htmlAttributes: new { @disabled="disabled" })</li>
+        </li>
+        <li>@Html.ActionLink("Se déconnecter", "Logout", "Login", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+}

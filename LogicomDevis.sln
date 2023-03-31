@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33214.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicomDevisBackEnd", "LogicomDevisBackEnd\LogicomDevisBackEnd.csproj", "{937429A1-A181-4626-B312-11D14DCD7741}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicomDevisFrontEnd", "LogicomDevisFrontEnd\LogicomDevisFrontEnd.csproj", "{AC098906-E941-46A9-8E96-AA673CEB0361}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{937429A1-A181-4626-B312-11D14DCD7741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937429A1-A181-4626-B312-11D14DCD7741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{937429A1-A181-4626-B312-11D14DCD7741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937429A1-A181-4626-B312-11D14DCD7741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC098906-E941-46A9-8E96-AA673CEB0361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC098906-E941-46A9-8E96-AA673CEB0361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC098906-E941-46A9-8E96-AA673CEB0361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC098906-E941-46A9-8E96-AA673CEB0361}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED40045F-BDD3-4840-BB1E-DAC470AA0AAF}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,185 @@
+﻿@model IEnumerable<LogicomDevisFrontEnd.Models.Devis>
+
+<table class="table">
+
+
+    <tr>
+        <td >
+            <strong>Rechercher par client: </strong>
+        </td>
+        <td>
+            <input class="form-control" type="text" id="nom_cli" size="10" onkeyup="filtrerNomCli()" />
+        </td>
+        <td>
+        </td>
+        <td>
+            <strong>Numéro:</strong>
+        </td>
+        <td>
+            <input class="form-control" type="text" id="tel_cli" name="tel_cli"
+                   size="10" onkeyup="filtrerTelCli()">
+        </td>
+        <td>
+        </td>
+        <td>
+            <strong>Point de Vente:</strong>
+        </td>
+        <td>
+            <select class="form-control" id="codepv" name="codepv" onchange="filterTable()">
+                <option value=""></option>
+                @foreach (var pv in ViewBag.pvs)
+                {
+                    <option value="@pv.Libelle">@pv.Libelle</option>
+                }
+            </select>
+        </td>
+
+    </tr>
+
+
+
+</table>
+<table class="table" id="tableLstDevis">
+    <tr>
+        <th>
+            @Html.DisplayName("Numéro")
+        </th>
+        <th>
+            @Html.DisplayName("Nom")
+        </th>
+        <th>
+            @Html.DisplayName("Tel")
+        </th>
+        <th>
+            @Html.DisplayName("Date")
+        </th>
+
+        <th>
+            @Html.DisplayName("Mttc")
+        </th>
+
+        <th>
+            @Html.DisplayName("RS")
+        </th>
+
+
+        <th>
+            @Html.DisplayName("DateMAJ")
+        </th>
+        <th>
+            @Html.DisplayName("PV")
+        </th>
+
+        <th>
+            @Html.DisplayName("Cloturé")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NUMBL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.client.rsoc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.client.tel1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DATEBL, "{0:dd - M - yy}")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MTTC)
+
+            <td>
+                @Html.DisplayFor(modelItem => item.RSCLI)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DATEDMAJ)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.libpv)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.cloturer)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.NUMBL }) |
+                @Html.ActionLink("Details", "SelectionnerArticles", new { id = item.NUMBL }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.NUMBL })
+            </td>
+        </tr>
+    }
+
+</table>
+@section Scripts {
+    <script>
+        function filtrerNomCli() {
+            var filtre, tableau, ligne, cellule, i, texte
+            filtre = document.getElementById("nom_cli").value.toUpperCase();
+            tableau = document.getElementById("tableLstDevis");
+            ligne = tableau.getElementsByTagName("tr");
+            for (i = 0; i < ligne.length; i++) {
+
+                cellule = ligne[i].getElementsByTagName("td")[1];
+                if (cellule) {
+                    texte = cellule.innerHTML.toUpperCase();
+                    if (texte.indexOf(filtre) > -1) {
+                        ligne[i].style.display = "";
+                    }
+                    else {
+                        ligne[i].style.display = "none";
+                    }
+                }
+
+            }
+        }
+
+        /////////////Filtrage par Telephone client ////////////////////
+        function filtrerTelCli() {
+            var filtre, tableau, ligne, cellule, i, texte
+            filtre = document.getElementById("tel_cli").value.toUpperCase();
+            tableau = document.getElementById("tableLstDevis");
+            ligne = tableau.getElementsByTagName("tr");
+            for (i = 0; i < ligne.length; i++) {
+
+                cellule = ligne[i].getElementsByTagName("td")[2];
+                if (cellule) {
+                    texte = cellule.innerHTML;
+                    if (texte.indexOf(filtre) > -1) {
+                        ligne[i].style.display = "";
+                    }
+                    else {
+                        ligne[i].style.display = "none";
+                    }
+                }
+
+            }
+        }
+    </script>
+    
+    <script>
+        function filterTable() {
+            var selectedOption = $("#codepv").val().toUpperCase();
+            var tableRows = $("#tableLstDevis").find("tr");
+
+            tableRows.each(function (index, row) {
+                if (index > 0) { // skip the first row (the header row)
+                    var cells = $(row).find("td");
+                    var libpv = cells.eq(7).text().toUpperCase();
+
+                    if (libpv.indexOf(selectedOption) > -1) {
+                        $(row).show();
+                    } else {
+                        $(row).hide();
+                    }
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,145 @@
+﻿
+@model LogicomDevisFrontEnd.Models.Devis
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Créer un nouveau devis </h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.NUMBL, "Numéro devis", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.NUMBL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.NUMBL, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DATEBL, "Date:", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DATEBL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+            @Html.ValidationMessageFor(model => model.DATEBL, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CODECLI, "Code client", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select id="clientList" class="form-control" name="CODECLI"></select>
+            @Html.HiddenFor(model => model.CODECLI, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CODECLI, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.RSCLI, "RSOC Client ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select id="rsList" class="form-control" name="RSCLI"></select>
+            @Html.ValidationMessageFor(model => model.RSCLI, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.usera, "Utilisateur ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.usera, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.usera, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.codepv, "PointVente", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.codepv, ViewBag.pvs as SelectList, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.codepv, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    alert(@Session["token"]);
+    $(function () {
+        var clientList = $('#clientList');
+        var rsList = $('#rsList');
+        var token = "@Session["token"]";
+        $.ajax({
+            url: 'http://localhost:44333/api/Client',
+            headers: { "Authorization":  token },
+            type: 'GET',
+            success: function (clients) {
+                // Ajoute une option pour chaque client
+                clients.forEach(function (client) {
+                    var option = $('<option>').val(client.code).text(client.code);
+                    var option1 = $('<option>').val(client.rsoc).text(client.rsoc);
+                    clientList.append(option);
+                    rsList.append(option1);
+                });
+
+                // Gère la sélection d'un client
+                clientList.on('change', function () {
+                    var selectedCodeCli = $(this).val();
+                    if (selectedCodeCli) {
+                        // Appel à l'API pour récupérer le RSOC du client sélectionné
+                        $.ajax({
+                            url: 'http://localhost:44333/api/Client?id=' + selectedCodeCli,
+                            headers: { "Authorization":  token },
+                            type: 'GET',
+                            success: function (client) {
+                                $('#RSCLI').val(client.rsoc);
+                                $('#rsList').val(client.rsoc);
+                            }
+                        });
+                    } else {
+                        // Efface la valeur de RSCLI si la sélection est vide
+                        $('#RSCLI').val('');
+                        $('#rsList').val('');
+                    }
+                });
+                // Gère la sélection d'un client (On choisit la raison sociale)
+                rsList.on('change', function () {
+                    var selectedRSCli = $(this).val();
+                    if (selectedRSCli) {
+                        // Appel à l'API pour récupérer le RSOC du client sélectionné
+                        $.ajax({
+                            url: 'http://localhost:44333/api/Client/GetClientByRS?rs=' + selectedRSCli,
+                            headers: { "Authorization":"Bearer "+@Session["token"] },
+                            type: 'GET',
+                            success: function (code) {
+                                $('#CODECLI').val(code);
+                                $('#clientList').val(code);
+                            }
+                        });
+                    } else {
+                        // Efface la valeur de RSCLI si la sélection est vide
+                        $('#CODECLI').val('');
+                        $('#clientList').val('');
+
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+}
