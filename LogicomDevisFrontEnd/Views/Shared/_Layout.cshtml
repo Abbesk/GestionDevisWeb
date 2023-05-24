@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Application Devis</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/modernizr")  
 
 </head>
 <body>
@@ -18,18 +18,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink( Session["societe"]+" DEVIS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink( Session["SelectedSoc"]+" DEVIS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
-                    <li>@Html.ActionLink("À propos de", "About", "Home")</li>
+                    <li>@Html.ActionLink("Choisir société", "Choisir", "Login")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Liste devis", "Index", "Devis")</li>
                     <li>@Html.ActionLink("Créer devis", "Create", "Devis")</li>
+                    <li>@Html.ActionLink("Créer client", "CreateClient", "Devis")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
-                @*Html.Partial("_Navbar")*@
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - @Session["societe"] DEVIS</p>
+            <p>&copy; @DateTime.Now.Year - @Session["SelectedSoc"] DEVIS</p>
         </footer>
     </div>
 

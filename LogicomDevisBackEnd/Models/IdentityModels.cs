@@ -21,7 +21,7 @@ namespace LogicomDevisBackEnd.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("somabeEntities", throwIfV1Schema: false)
+            : base("SocieteEntites", throwIfV1Schema: false)
         {
         }
         

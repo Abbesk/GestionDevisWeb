@@ -492,9 +492,25 @@
         </EntityType>
         <EntityContainer Name="usererpEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="utilisateur" EntityType="Self.utilisateur" />
-          <EntitySet Name="societe" EntityType="usererpModel.societe" />
           <EntitySet Name="usersoc" EntityType="usererpModel.usersoc" />
+          <EntitySet Name="societe" EntityType="usererpModel.societe" />
         </EntityContainer>
+        <EntityType Name="usersoc">
+          <Key>
+            <PropertyRef Name="CODEUSER" />
+            <PropertyRef Name="societe" />
+            <PropertyRef Name="Projet" />
+          </Key>
+          <Property Name="CODEUSER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="societe" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="accee" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ecriture" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Projet" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="seltmp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="acceclot" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="rsoc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="societe">
           <Key>
             <PropertyRef Name="code" />
@@ -835,22 +851,6 @@
           <Property Name="Socintgr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Integgr" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="usersoc">
-          <Key>
-            <PropertyRef Name="CODEUSER" />
-            <PropertyRef Name="societe" />
-            <PropertyRef Name="Projet" />
-          </Key>
-          <Property Name="CODEUSER" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="societe" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="accee" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="ecriture" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="Projet" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="seltmp" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="acceclot" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="rsoc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ip" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -915,6 +915,21 @@
                 <ScalarProperty Name="dernacce" ColumnName="dernacce" />
                 <ScalarProperty Name="nbrjr" ColumnName="nbrjr" />
                 <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usersoc">
+            <EntityTypeMapping TypeName="usererpModel.usersoc">
+              <MappingFragment StoreEntitySet="usersoc">
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="rsoc" ColumnName="rsoc" />
+                <ScalarProperty Name="acceclot" ColumnName="acceclot" />
+                <ScalarProperty Name="seltmp" ColumnName="seltmp" />
+                <ScalarProperty Name="Projet" ColumnName="Projet" />
+                <ScalarProperty Name="ecriture" ColumnName="ecriture" />
+                <ScalarProperty Name="accee" ColumnName="accee" />
+                <ScalarProperty Name="societe" ColumnName="societe" />
+                <ScalarProperty Name="CODEUSER" ColumnName="CODEUSER" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1256,21 +1271,6 @@
                 <ScalarProperty Name="sel" ColumnName="sel" />
                 <ScalarProperty Name="synchronisation" ColumnName="synchronisation" />
                 <ScalarProperty Name="code" ColumnName="code" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="usersoc">
-            <EntityTypeMapping TypeName="usererpModel.usersoc">
-              <MappingFragment StoreEntitySet="usersoc">
-                <ScalarProperty Name="ip" ColumnName="ip" />
-                <ScalarProperty Name="rsoc" ColumnName="rsoc" />
-                <ScalarProperty Name="acceclot" ColumnName="acceclot" />
-                <ScalarProperty Name="seltmp" ColumnName="seltmp" />
-                <ScalarProperty Name="Projet" ColumnName="Projet" />
-                <ScalarProperty Name="ecriture" ColumnName="ecriture" />
-                <ScalarProperty Name="accee" ColumnName="accee" />
-                <ScalarProperty Name="societe" ColumnName="societe" />
-                <ScalarProperty Name="CODEUSER" ColumnName="CODEUSER" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

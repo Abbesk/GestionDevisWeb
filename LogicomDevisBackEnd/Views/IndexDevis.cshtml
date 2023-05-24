@@ -1,0 +1,753 @@
+﻿@model IEnumerable<LogicomDevisBackEnd.Models.dfp>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ADRCLI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODEFACTURE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COM1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COM2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.COM3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DATEBL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MODEREG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MREMISE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MTTC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MTVA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BASE1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BASE2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BASE3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BASE4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BASE5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVA1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVA2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVA3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVA4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVA5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RSCLI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TAUXREMISE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MHT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EXON)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MFODEC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BFODEC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RETENUE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CEXPORT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODEREP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RSREP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODETVA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAJ1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAJ2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAJ3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAJ4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAJ5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TIMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MAJO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TREMISE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FACTURE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODEVAL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODESEL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TVADUE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODERAP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BONINTER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CODECHA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DESICHA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AGENT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FODECDUE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NUMBC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TGARANTIE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TRSOURCE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MGARANTIE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DATEDMAJ)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DECISION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.REFCOMM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.comm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.commint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.delailivr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.transport)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modepaie)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.usera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.userm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.users)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.baseavance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mtavance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.descriptiontxt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mlettre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.datt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.executer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mnht)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.confcl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.confcltxt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.codsui)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dessui)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contacte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.commentaire)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mtlettre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remglo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.commentete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.modeliv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.valoff)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.arrondi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ6)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ8)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ9)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ10)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.champ11)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.affichec)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.affichet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.affiched)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.papierb)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.libpv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.typeapp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cloturer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.datelimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.valorisation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PFvalide)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PFmodif)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.retenuefp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cred)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.etatcl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bcons)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mcons)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duree1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duree2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TEMPDMAJ)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.codesecteur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.puissance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Client.rsoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PointVente.Libelle)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADRCLI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODEFACTURE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COM1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COM2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.COM3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DATEBL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MODEREG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MREMISE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MTTC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MTVA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BASE1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BASE2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BASE3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BASE4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BASE5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVA1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVA2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVA3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVA4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVA5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RSCLI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TAUXREMISE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MHT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EXON)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MFODEC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BFODEC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RETENUE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CEXPORT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODEREP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RSREP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODETVA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAJ1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAJ2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAJ3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAJ4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAJ5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TIMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAJO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TREMISE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FACTURE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODEVAL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODESEL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TVADUE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODERAP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BONINTER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CODECHA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DESICHA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AGENT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FODECDUE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NUMBC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TGARANTIE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TRSOURCE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MGARANTIE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DATEDMAJ)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DECISION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REFCOMM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.commint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.delailivr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.transport)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modepaie)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.usera)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.userm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.users)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.baseavance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mtavance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.descriptiontxt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mlettre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.datt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.executer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mnht)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.confcl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.confcltxt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.codsui)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dessui)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contacte)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.commentaire)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mtlettre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.remglo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.commentete)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.modeliv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.valoff)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.arrondi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ6)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ7)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ8)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ9)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ10)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.champ11)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.affichec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.affichet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.affiched)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.papierb)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.libpv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.typeapp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cloturer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.datelimit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.valorisation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PFvalide)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PFmodif)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.retenuefp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.subv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cred)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.etatcl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bcons)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mcons)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.duree1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.duree2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEMPDMAJ)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.codesecteur)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.puissance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.reference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client.rsoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PointVente.Libelle)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.NUMBL }) |
+            @Html.ActionLink("Details", "Details", new { id=item.NUMBL }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.NUMBL })
+        </td>
+    </tr>
+}
+
+</table>

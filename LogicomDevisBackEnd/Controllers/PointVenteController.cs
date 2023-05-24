@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using LogicomDevisBackEnd.Models;
@@ -15,15 +17,33 @@ namespace LogicomDevisBackEnd.Controllers
 {
     public class PointVenteController : ApiController
     {
-        private somabeEntities db = new somabeEntities();
+        private static string societyName = (string)HttpContext.Current.Cache["SelectedSoc"] ;
+        private string connectionString;
+        private SocieteEntities db;
 
+        public PointVenteController()
+        {
+            connectionString = string.Format(ConfigurationManager.ConnectionStrings["SocieteEntities"].ConnectionString, societyName);
+            db = new SocieteEntities(connectionString);
+        }
         [Authorize]
         public async Task<List<pointvente>> GetAllPointsVente()
         {
             return await db.pointvente.ToListAsync();
 
         }
-
+        [Authorize]
+        [HttpGet]
+        [Route("api/PointVente/GetEmailByCodePV")]
+        public async Task<string> GetEmailByCodePV(string codepv)
+        {
+            var pointDeVente = await db.pointvente.FirstOrDefaultAsync(p => p.Code == codepv);
+            if (pointDeVente != null)
+            {
+                return pointDeVente.EMAIL;
+            }
+            return null;
+        }
         [Authorize]
         [ResponseType(typeof(pointvente))]
         public IHttpActionResult Getpointvente(string id)

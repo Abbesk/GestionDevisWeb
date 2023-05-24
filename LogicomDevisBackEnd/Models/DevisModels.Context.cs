@@ -13,13 +13,14 @@ namespace LogicomDevisBackEnd.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class somabeEntities : DbContext
+    public partial class SocieteEntities : DbContext
     {
-        public somabeEntities()
-            : base("name=somabeEntities")
+        public SocieteEntities(string connectionString)
+    : base(connectionString)
         {
         }
-    
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -34,5 +35,7 @@ namespace LogicomDevisBackEnd.Models
         public virtual DbSet<lignedepot> lignedepot { get; set; }
         public virtual DbSet<pointvente> pointvente { get; set; }
         public virtual DbSet<societe> societe { get; set; }
+        public virtual DbSet<representant> representant { get; set; }
+        public virtual DbSet<utilisateurpv> utilisateurpv { get; set; }
     }
 }

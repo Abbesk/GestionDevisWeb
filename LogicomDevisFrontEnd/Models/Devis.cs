@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -15,7 +16,8 @@ namespace LogicomDevisFrontEnd.Models
         public string COM1 { get; set; }
         public string COM2 { get; set; }
         public string COM3 { get; set; }
-        public Nullable<System.DateTime> DATEBL { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? DATEBL { get; set; }
         public string MODEREG { get; set; }
         public Nullable<double> MREMISE { get; set; }
         public Nullable<double> MTTC { get; set; }

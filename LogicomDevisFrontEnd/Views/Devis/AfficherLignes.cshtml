@@ -1,0 +1,249 @@
+﻿@model LogicomDevisFrontEnd.Models.Devis
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Détails devis";
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+
+        .my-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .my-table th,
+            .my-table td {
+                padding: 10px;
+                border: 1px solid black;
+                text-align: center;
+            }
+
+            .my-table th {
+                font-weight: bold;
+            }
+
+            .my-table tbody tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+        .body-content {
+            padding: 50px;
+        }
+
+        .table-devis {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .table-devis th,
+            .table-devis td {
+                padding: 10px;
+                border: 1px solid black;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .table-devis tbody tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+        .tableInfoDevis {
+            border: 2px solid black;
+            width: 40%; /* agrandit la table pour remplir l'espace disponible */
+            margin-right: 20px;
+            float: left;
+        }
+
+            .tableInfoDevis tr:first-child {
+                border-bottom: 2px solid black;
+            }
+
+            .tableInfoDevis th {
+                text-align: center;
+            }
+
+        .tableInfoClient {
+            border: 2px solid black;
+            width: 40%; /* agrandit la table pour remplir l'espace disponible */
+            height: 146px !important;
+            float: right;
+        }
+
+            .tableInfoClient tr:first-child {
+                border-bottom: 2px solid black;
+            }
+
+            .tableInfoClient th {
+                text-align: center;
+            }
+
+        .tableInfoDevis td:first-child {
+            padding: 5px;
+        }
+
+        .tableMontant {
+            width: 50%;
+            float: right;
+            margin-right: 100px;
+        }
+
+        .divTabs {
+            margin: 20px;
+            width: 100%;
+            height: 170px;
+        }
+
+        #content {
+            margin-bottom: 50px;
+        }
+
+        @@media print {
+            tr:hover {
+                background-color: transparent !important;
+            }
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+
+</head>
+<body>
+    <div class="divTabs">
+        <table class="tableInfoDevis" cellspacing="0">
+            <tr>
+                <th colspan="2">
+                    DEVIS:
+
+
+                </th>
+            </tr>
+            <tr>
+                <td>Numéro : </td>
+                <td>@Model.NUMBL</td>
+            </tr>
+            <tr>
+                <td>Date   :</td>
+                <td>@Model.DATEBL</td>
+            </tr>
+            <tr>
+                <td>Client :</td>
+                <td>@Model.CODECLI</td>
+            </tr>
+            <tr>
+                <td>Page   :</td>
+                <td>1/1</td>
+            </tr>
+
+
+
+
+
+        </table>
+        <table class="tableInfoClient">
+            <tr>
+                <th>
+                    <strong>@Model.RSCLI</strong>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.ADRCLI
+                </td>
+
+            </tr>
+        </table>
+    </div><br />
+    <hr />
+    <div>
+        Projet: <br />
+        Suite à votre demande nous avons le plaisir de vous communiquer notre meilleure offre de prix pour les articles suivants:
+    </div><hr />
+    <br /><br /><br /><br />
+    <table class="my-table">
+        <thead>
+            <tr>
+                <th width="500px">
+                    Désignation
+                </th>
+                <th width="80px">
+                    PU
+                </th>
+                <th width="50px">
+                    TVA
+                </th>
+                <th width="60px">
+                    Remise
+                </th>
+                <th width="130px">
+                    Quantité
+                </th>
+                <th width="300px">
+                    MHT
+                </th>
+                <th width="300px">
+                    MTTC
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.LignesDevis.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => x.LignesDevis[i].DesART, new { htmlAttributes = new { @class = "form-control input-bordered desart-select", id = "desart-input", style = "width: 288px; height: 50px;" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x.LignesDevis[i].PUART, new { htmlAttributes = new { @class = "form-control input-bordered puart-select", id = "puart-input", style = "width: 120px; height: 50px;" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x.LignesDevis[i].TauxTVA, new { htmlAttributes = new { @class = "form-control input-bordered tva-select", id = "tauxtva-input", style = "width: 50px; height: 50px;" } })%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x.LignesDevis[i].Remise, new { htmlAttributes = new { @class = "form-control input-bordered remise-select", id = "remise-input", style = "width: 50px; height: 50px;" } })%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => x.LignesDevis[i].QteART, new { htmlAttributes = new { @class = "form-control input-bordered qteart-select", style = "width: 80px; height: 50px;" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.LignesDevis[i].mtht, new { HtmlAttributes = new { @class = "form-control", style = "width: 80px; height: 50px;" } })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.LignesDevis[i].mttc, new { HtmlAttributes = new { @class = "form-control", style = "width: 80px; height: 50px;" } })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+    <br><br><br><br>
+    <table class="tableMontant">
+
+        <tr>
+            <td><strong>Montant remise</strong></td>
+            <td>
+                @Html.DisplayFor(m => m.TAUXREMISE, new { @class = "form-control input-bordered tauxRemise-Select", @id = "tauxRemise", @width = "70", @readonly = "readonly" })%
+            </td>
+        </tr>
+        <tr>
+            <td><strong>TOTAL HT</strong></td>
+            <td>
+                @Html.DisplayFor(m => m.MHT, new { @class = "form-control input-bordered tauxht-Select", @id = "tauxht", @width = "70", @readonly = "readonly" })
+            </td>
+        </tr>
+        <tr>
+
+            <td><strong>TOTAL TTC</strong></td>
+            <td>
+                @Html.DisplayFor(m => m.MTTC, new { @class = "form-control input-bordered tauxttc-Select", @id = "tauxttc", @width = "70", @readonly = "readonly" })
+            </td>
+        </tr>
+
+    </table>
+    <br /> <br />
+
+</body>
+</html>

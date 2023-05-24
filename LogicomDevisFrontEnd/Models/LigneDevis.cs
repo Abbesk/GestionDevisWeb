@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -10,6 +11,7 @@ namespace LogicomDevisFrontEnd.Models
         public string NumBL { get; set; }
         public Nullable<System.DateTime> DateBL { get; set; }
         public string CodeART { get; set; }
+        
         public string DesART { get; set; }
         public Nullable<double> QteART { get; set; }
         public Nullable<double> PUART { get; set; }

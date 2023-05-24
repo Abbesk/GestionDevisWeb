@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using LogicomDevisBackEnd.Models;
@@ -15,8 +17,16 @@ namespace LogicomDevisBackEnd.Controllers
 {
     public class ArticleController : ApiController
     {
-        
-        private somabeEntities db = new somabeEntities();
+
+        private static string societyName = (string)HttpContext.Current.Cache["SelectedSoc"];
+        private string connectionString;
+        private SocieteEntities db;
+
+        public ArticleController()
+        {
+            connectionString = string.Format(ConfigurationManager.ConnectionStrings["SocieteEntities"].ConnectionString, societyName);
+            db = new SocieteEntities(connectionString);
+        }
 
         [Authorize]
         public IQueryable<article> Getarticle()
@@ -35,6 +45,22 @@ namespace LogicomDevisBackEnd.Controllers
             {
                 lstArticles = lstArticles.Where(f => f.code == codeart).ToList();
                 lstArticles = lstArticles.Where(f => f.fam == fam).ToList();
+
+            }
+            return lstArticles;
+        }
+        [Authorize]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/Article/FetchLigneDepotParDepEtPvEtCodeArt")]
+        public async Task<IEnumerable<article>> FetchLigneDepotParDepEtPvEtCodeArt(string codeart)
+        {
+
+            var lstArticles = await db.article.ToListAsync();
+
+            if (codeart != null )
+            {
+                lstArticles = lstArticles.Where(f => f.code == codeart).ToList();
+             
 
             }
             return lstArticles;

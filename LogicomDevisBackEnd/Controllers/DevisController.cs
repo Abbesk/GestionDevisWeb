@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+
 using LogicomDevisBackEnd.Models;
 
 namespace LogicomDevisBackEnd.Controllers
 {
     public class DevisController : ApiController
     {
-        private somabeEntities db = new somabeEntities();
+        private  string societyName = (string)HttpContext.Current.Cache["SelectedSoc"] ;
+        private string connectionString;
+        private SocieteEntities db;
 
+        public DevisController()
+        {
+            connectionString = string.Format(ConfigurationManager.ConnectionStrings["SocieteEntities"].ConnectionString, societyName);
+            db = new SocieteEntities(connectionString);
+        }
         // GET: api/Devis
 
         [Authorize]
@@ -103,6 +111,12 @@ namespace LogicomDevisBackEnd.Controllers
             ExistingDevis = db.dfp.Find(id); 
             if(ExistingDevis!=null)
                 {
+                    if (ExistingDevis.LignesDevis.Count() != 0){
+                        foreach(ldfp l in ExistingDevis.LignesDevis.ToList())
+                        {
+                            ExistingDevis.LignesDevis.Remove(l); 
+                        }
+                    }
                     foreach(ldfp ligne in devis.LignesDevis)
                     {
                         if(ligne != null && ligne.QteART!= 0 && ligne.codedep != null && ligne.famille != null && ligne.CodeART !=null)
@@ -114,7 +128,8 @@ namespace LogicomDevisBackEnd.Controllers
                     }
                     ExistingDevis.MHT = devis.MHT;
                     ExistingDevis.TAUXREMISE = devis.TAUXREMISE;
-                    ExistingDevis.MTTC = devis.MTTC; 
+                    ExistingDevis.MTTC = devis.MTTC;
+                    ExistingDevis.DATEDMAJ = DateTime.Now; 
                 }
             }
 
@@ -140,10 +155,6 @@ namespace LogicomDevisBackEnd.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = devis.NUMBL }, devis);
         }
-
-
-
-
 
         [Authorize]
         [ResponseType(typeof(dfp))]
@@ -225,10 +236,12 @@ namespace LogicomDevisBackEnd.Controllers
             devis.subv = "0";
             devis.cred = "0";
             devis.DATEBL = DateTime.Now;
-            devis.MTTC = 0;
-            devis.MHT = 0;
-            devis.TAUXREMISE = 0; 
-
+            devis.datelimit = DateTime.Now.AddDays(15); 
+            foreach(ldfp ligne in devis.LignesDevis)
+            {
+                ligne.NumBL = devis.NUMBL;
+                db.ldfp.Add(ligne);
+            }
             db.dfp.Add(devis);
 
             try
@@ -255,11 +268,20 @@ namespace LogicomDevisBackEnd.Controllers
         public IHttpActionResult DeleteDevis(string id)
         {
             dfp dfp = db.dfp.Find(id);
+            IQueryable<ldfp> ldfps = db.ldfp.Where(ligne => ligne.NumBL == id);
+
             if (dfp == null)
             {
                 return NotFound();
             }
 
+            
+            foreach (var ldfp in ldfps)
+            {
+                db.ldfp.Remove(ldfp);
+            }
+
+            
             db.dfp.Remove(dfp);
             db.SaveChanges();
 

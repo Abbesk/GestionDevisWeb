@@ -5,11 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="694c08136b434cf39f1917c9251a0ace" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="somabeModel.article" Width="1.5" PointX="2.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="somabeModel.article" Width="1.5" PointX="2.625" PointY="1.125" IsExpanded="false" />
         <EntityTypeShape EntityType="somabeModel.client" Width="1.5" PointX="14.875" PointY="5.625" IsExpanded="false" />
         <EntityTypeShape EntityType="somabeModel.dfp" Width="1.5" PointX="9.875" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="somabeModel.famille" Width="1.5" PointX="0.5" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="somabeModel.ldfp" Width="1.5" PointX="5.5" PointY="5.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="somabeModel.famille" Width="1.5" PointX="0.5" PointY="1.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="somabeModel.ldfp" Width="1.5" PointX="2.5" PointY="5.25" IsExpanded="false" />
         <AssociationConnector Association="somabeModel.articlefamille" />
         <AssociationConnector Association="somabeModel.clientdfp" />
         <AssociationConnector Association="somabeModel.ldfpdfp" />
@@ -22,6 +22,8 @@
         <AssociationConnector Association="somabeModel.dfppointvente" />
         <AssociationConnector Association="somabeModel.ldfparticle" />
         <EntityTypeShape EntityType="somabeModel.societe" Width="1.5" PointX="12.25" PointY="2.25" />
+        <EntityTypeShape EntityType="somabeModel.representant" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="somabeModel.utilisateurpv" Width="1.5" PointX="0.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

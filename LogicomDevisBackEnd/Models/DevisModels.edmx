@@ -333,7 +333,7 @@
           <Property Name="COM1" Type="varchar" MaxLength="50" />
           <Property Name="COM2" Type="varchar" MaxLength="60" />
           <Property Name="COM3" Type="varchar" MaxLength="60" />
-          <Property Name="DATEBL" Type="date" />
+          <Property Name="DATEBL" Type="datetime" Precision="0" />
           <Property Name="MODEREG" Type="varchar" MaxLength="50" />
           <Property Name="MREMISE" Type="double" />
           <Property Name="MTTC" Type="double" />
@@ -381,7 +381,7 @@
           <Property Name="TGARANTIE" Type="double" />
           <Property Name="TRSOURCE" Type="double" />
           <Property Name="MGARANTIE" Type="double" />
-          <Property Name="DATEDMAJ" Type="date" />
+          <Property Name="DATEDMAJ" Type="datetime" Precision="0" />
           <Property Name="DECISION" Type="varchar" MaxLength="90" />
           <Property Name="REFCOMM" Type="varchar" MaxLength="50" />
           <Property Name="comm" Type="text" />
@@ -397,7 +397,7 @@
           <Property Name="descriptiontxt" Type="text" />
           <Property Name="Description" Type="text" />
           <Property Name="mlettre" Type="varchar" MaxLength="255" />
-          <Property Name="datt" Type="date" />
+          <Property Name="datt" Type="datetime" Precision="0" />
           <Property Name="executer" Type="varchar" MaxLength="1" />
           <Property Name="mnht" Type="double" />
           <Property Name="confcl" Type="text" />
@@ -432,7 +432,7 @@
           <Property Name="libpv" Type="varchar" MaxLength="30" />
           <Property Name="typeapp" Type="varchar" MaxLength="2" />
           <Property Name="cloturer" Type="varchar" MaxLength="1" />
-          <Property Name="datelimit" Type="date" />
+          <Property Name="datelimit" Type="datetime" Precision="0" />
           <Property Name="valorisation" Type="varchar" MaxLength="3" />
           <Property Name="PFvalide" Type="varchar" MaxLength="1" />
           <Property Name="PFmodif" Type="varchar" MaxLength="4" />
@@ -528,8 +528,8 @@
           <Property Name="stockmax" Type="double" />
           <Property Name="typearticle" Type="varchar" MaxLength="2" />
           <Property Name="qteres" Type="double" />
-          <Property Name="numfourn" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="libfourn" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="numfourn" Type="varchar" MaxLength="50" />
+          <Property Name="libfourn" Type="varchar" MaxLength="50" />
           <Property Name="datderninv" Type="datetime" Precision="0" />
           <Property Name="type" Type="varchar" MaxLength="12" />
           <Property Name="artmouv" Type="varchar" MaxLength="1" />
@@ -614,6 +614,42 @@
           <Property Name="Port_conn" Type="varchar" MaxLength="20" />
           <Property Name="User" Type="varchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="representant">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="datec" Type="date" />
+          <Property Name="rsoc" Type="varchar" MaxLength="30" />
+          <Property Name="adresse" Type="varchar" MaxLength="40" />
+          <Property Name="adresse1" Type="varchar" MaxLength="40" />
+          <Property Name="region" Type="varchar" MaxLength="3" />
+          <Property Name="ddc" Type="date" />
+          <Property Name="cin" Type="varchar" MaxLength="8" />
+          <Property Name="tel" Type="varchar" MaxLength="13" />
+          <Property Name="marge" Type="double" />
+          <Property Name="commentaire" Type="varchar" MaxLength="250" />
+          <Property Name="login" Type="varchar" MaxLength="2" />
+          <Property Name="motpasse" Type="varchar" MaxLength="10" />
+          <Property Name="fonction" Type="varchar" MaxLength="30" />
+          <Property Name="piece" Type="varchar" MaxLength="255" />
+          <Property Name="codequal" Type="varchar" MaxLength="3" />
+          <Property Name="libqual" Type="varchar" MaxLength="30" />
+          <Property Name="fax" Type="varchar" MaxLength="20" />
+          <Property Name="mobile" Type="varchar" MaxLength="20" />
+          <Property Name="mail" Type="varchar" MaxLength="50" />
+          <Property Name="cout" Type="double" />
+          <Property Name="dateemb" Type="date" />
+          <Property Name="regime" Type="varchar" MaxLength="1" />
+          <Property Name="caisse" Type="varchar" MaxLength="2" />
+          <Property Name="actif" Type="double" />
+          <Property Name="commsupp" Type="double" />
+          <Property Name="nbjr" Type="double" />
+          <Property Name="confid" Type="varchar" MaxLength="1" />
+          <Property Name="impcaisse" Type="varchar" MaxLength="1" />
+          <Property Name="CODESEL" Type="varchar" MaxLength="1" />
+          <Property Name="commission_kw" Type="int" />
+        </EntityType>
         <EntityType Name="societe">
           <Key>
             <PropertyRef Name="code" />
@@ -630,6 +666,22 @@
           <Property Name="e7" Type="varchar" MaxLength="50" />
           <Property Name="e8" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="utilisateurpv">
+          <Key>
+            <PropertyRef Name="codeuser" />
+            <PropertyRef Name="codepv" />
+            <PropertyRef Name="codedep" />
+          </Key>
+          <Property Name="codeuser" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="30" />
+          <Property Name="codepv" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="libpv" Type="varchar" MaxLength="30" />
+          <Property Name="pvdefaut" Type="varchar" MaxLength="1" />
+          <Property Name="afftot" Type="varchar" MaxLength="1" />
+          <Property Name="codedep" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="societe_code" Type="varchar" MaxLength="8" />
+          <Property Name="libdep" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="somabeModelStoreContainer">
           <EntitySet Name="article" EntityType="Self.article" Schema="somabe" store:Type="Tables" />
           <EntitySet Name="client" EntityType="Self.client" Schema="somabe" store:Type="Tables" />
@@ -639,7 +691,9 @@
           <EntitySet Name="ldfp" EntityType="Self.ldfp" Schema="somabe" store:Type="Tables" />
           <EntitySet Name="lignedepot" EntityType="Self.lignedepot" Schema="somabe" store:Type="Tables" />
           <EntitySet Name="pointvente" EntityType="Self.pointvente" Schema="somabe" store:Type="Tables" />
+          <EntitySet Name="representant" EntityType="Self.representant" Schema="somabe" store:Type="Tables" />
           <EntitySet Name="societe" EntityType="Self.societe" Schema="somabe" store:Type="Tables" />
+          <EntitySet Name="utilisateurpv" EntityType="Self.utilisateurpv" Schema="somabe" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1179,6 +1233,8 @@
             <End Role="article" EntitySet="article" />
           </AssociationSet>
           <EntitySet Name="societe" EntityType="somabeModel.societe" />
+          <EntitySet Name="representant" EntityType="somabeModel.representant" />
+          <EntitySet Name="utilisateurpv" EntityType="somabeModel.utilisateurpv" />
         </EntityContainer>
         <Association Name="articlefamille">
           <End Type="somabeModel.article" Role="article" Multiplicity="*" />
@@ -1423,6 +1479,58 @@
           <Property Name="e6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="e7" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="e8" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="representant">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="datec" Type="DateTime" />
+          <Property Name="rsoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="adresse" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="adresse1" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="region" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ddc" Type="DateTime" />
+          <Property Name="cin" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="tel" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="marge" Type="Double" />
+          <Property Name="commentaire" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="login" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="motpasse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fonction" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="piece" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="codequal" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="libqual" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fax" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cout" Type="Double" />
+          <Property Name="dateemb" Type="DateTime" />
+          <Property Name="regime" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="caisse" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="actif" Type="Double" />
+          <Property Name="commsupp" Type="Double" />
+          <Property Name="nbjr" Type="Double" />
+          <Property Name="confid" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="impcaisse" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODESEL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="commission_kw" Type="Int32" />
+        </EntityType>
+        <EntityType Name="utilisateurpv">
+          <Key>
+            <PropertyRef Name="codeuser" />
+            <PropertyRef Name="codepv" />
+            <PropertyRef Name="codedep" />
+          </Key>
+          <Property Name="codeuser" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="nom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="codepv" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="libpv" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="pvdefaut" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="afftot" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="codedep" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="societe_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="libdep" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2054,6 +2162,58 @@
                 <ScalarProperty Name="dat" ColumnName="dat" />
                 <ScalarProperty Name="rsoc" ColumnName="rsoc" />
                 <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="representant">
+            <EntityTypeMapping TypeName="somabeModel.representant">
+              <MappingFragment StoreEntitySet="representant">
+                <ScalarProperty Name="commission_kw" ColumnName="commission_kw" />
+                <ScalarProperty Name="CODESEL" ColumnName="CODESEL" />
+                <ScalarProperty Name="impcaisse" ColumnName="impcaisse" />
+                <ScalarProperty Name="confid" ColumnName="confid" />
+                <ScalarProperty Name="nbjr" ColumnName="nbjr" />
+                <ScalarProperty Name="commsupp" ColumnName="commsupp" />
+                <ScalarProperty Name="actif" ColumnName="actif" />
+                <ScalarProperty Name="caisse" ColumnName="caisse" />
+                <ScalarProperty Name="regime" ColumnName="regime" />
+                <ScalarProperty Name="dateemb" ColumnName="dateemb" />
+                <ScalarProperty Name="cout" ColumnName="cout" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="libqual" ColumnName="libqual" />
+                <ScalarProperty Name="codequal" ColumnName="codequal" />
+                <ScalarProperty Name="piece" ColumnName="piece" />
+                <ScalarProperty Name="fonction" ColumnName="fonction" />
+                <ScalarProperty Name="motpasse" ColumnName="motpasse" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="commentaire" ColumnName="commentaire" />
+                <ScalarProperty Name="marge" ColumnName="marge" />
+                <ScalarProperty Name="tel" ColumnName="tel" />
+                <ScalarProperty Name="cin" ColumnName="cin" />
+                <ScalarProperty Name="ddc" ColumnName="ddc" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="adresse1" ColumnName="adresse1" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+                <ScalarProperty Name="rsoc" ColumnName="rsoc" />
+                <ScalarProperty Name="datec" ColumnName="datec" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="utilisateurpv">
+            <EntityTypeMapping TypeName="somabeModel.utilisateurpv">
+              <MappingFragment StoreEntitySet="utilisateurpv">
+                <ScalarProperty Name="libdep" ColumnName="libdep" />
+                <ScalarProperty Name="societe_code" ColumnName="societe_code" />
+                <ScalarProperty Name="codedep" ColumnName="codedep" />
+                <ScalarProperty Name="afftot" ColumnName="afftot" />
+                <ScalarProperty Name="pvdefaut" ColumnName="pvdefaut" />
+                <ScalarProperty Name="libpv" ColumnName="libpv" />
+                <ScalarProperty Name="codepv" ColumnName="codepv" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="codeuser" ColumnName="codeuser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

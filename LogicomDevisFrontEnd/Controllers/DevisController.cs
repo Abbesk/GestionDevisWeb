@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace LogicomDevisFrontEnd.Controllers
@@ -18,8 +17,103 @@ namespace LogicomDevisFrontEnd.Controllers
 
         string baseURL = "http://localhost:44333/Api/";
 
-        
-        // GET: Devis
+        public async Task<ActionResult> CreateClient(Client c)
+        {
+
+            if (c.code== null)
+            {
+                string nouveauIndex;
+                using (var client = new HttpClient())
+                {
+                    string token = (string)Session["token"];
+
+                    client.BaseAddress = new Uri(baseURL + "Client/NouveauIndex");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage getData = await client.GetAsync(client.BaseAddress);
+                    if ((int)getData.StatusCode == 401)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                    if (getData.IsSuccessStatusCode)
+                    {
+                        string results = getData.Content.ReadAsStringAsync().Result;
+                        nouveauIndex = JsonConvert.DeserializeObject<String>(results);
+                        Client client1 = new Client
+                        {
+                            code = nouveauIndex
+                        };
+                        return View(client1);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erreur calling web api");
+                    }
+
+
+                }
+            }
+
+            else
+            {
+                using (var client = new HttpClient())
+                {
+                    string token = (string)Session["token"];
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    var json = JsonConvert.SerializeObject(c);
+                    var data = new StringContent(json, Encoding.UTF8, "application/json");
+                    client.BaseAddress = new Uri(baseURL + "Client");
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    HttpResponseMessage getData = await client.PostAsync("Client", data);
+                    if ((int)getData.StatusCode == 401)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                    if (getData.IsSuccessStatusCode)
+                    {
+
+                        return RedirectToAction("Create");
+
+                    }
+                    else
+                    {
+
+                        return View("ErreurCreation");
+                    }
+                }
+            }
+            return View(); 
+
+        }
+    
+            public ActionResult Delete(string id)
+        {
+            string token = (string)Session["token"];
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:44333/api/");
+
+                // Ajout du Bearer Token
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                //HTTP DELETE
+                var deleteTask = client.DeleteAsync("Devis/" + id);
+                deleteTask.Wait();
+
+                var result = deleteTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public async Task<ActionResult> Index()
         {
 
@@ -32,12 +126,19 @@ namespace LogicomDevisFrontEnd.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage getData = await client.GetAsync("Devis");
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
                 if (getData.IsSuccessStatusCode)
                 {
                     string results = getData.Content.ReadAsStringAsync().Result;
-                    lstdevis = JsonConvert.DeserializeObject<List<Devis>>(results);
+                    lstdevis = JsonConvert.DeserializeObject<List<Devis>>(results)
+                .OrderByDescending(d => d.DATEBL)
+                    .ToList();
 
                 }
+                
                 else
                 {
                     Console.WriteLine("Erreur calling web api");
@@ -46,19 +147,23 @@ namespace LogicomDevisFrontEnd.Controllers
 
             }
             /////Charger point de vente 
-            IList<PointVente> pointVentes = new List<PointVente>(); 
+            IList<UserPV> pointVentes = new List<UserPV>();
             using (var client = new HttpClient())
             {
-                string token = (string)Session["token"];                
-                client.BaseAddress = new Uri(baseURL );
+                string token = (string)Session["token"];
+                client.BaseAddress = new Uri(baseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage getData = await client.GetAsync("PointVente");
+                HttpResponseMessage getData = await client.GetAsync("UserPV/GetUtilisateurpvs?codeuser=" + (string)Session["code"]);
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Authentifier", "Login");
+                }
                 if (getData.IsSuccessStatusCode)
                 {
                     string results = getData.Content.ReadAsStringAsync().Result;
-                    pointVentes = JsonConvert.DeserializeObject<List<PointVente>>(results);
+                    pointVentes = JsonConvert.DeserializeObject<List<UserPV>>(results);
 
                 }
                 else
@@ -70,22 +175,25 @@ namespace LogicomDevisFrontEnd.Controllers
             }
 
 
-            return View();
+            return View("Index", lstdevis);
         }
 
        
-        public async Task<ActionResult> SelectionnerArticles(string id, Devis model)
+        public async Task<ActionResult> Edit(string id, Devis model)
         {
             IList<Depot> depots = new List<Depot>();
             using (var client = new HttpClient())
             {
                 string token = (string)Session["token"];
-                
-                client.BaseAddress = new Uri("http://localhost:44333/api/Depot");
+                client.BaseAddress = new Uri(baseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage getData = await client.GetAsync("Depot");
+                HttpResponseMessage getData = await client.GetAsync("Depot/GetDepotsParUser?codeuser=" + (string)Session["code"]);
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Authentifier", "Login");
+                }
                 if (getData.IsSuccessStatusCode)
                 {
                     string results = getData.Content.ReadAsStringAsync().Result;
@@ -101,6 +209,7 @@ namespace LogicomDevisFrontEnd.Controllers
             }
             if (model.NUMBL != null)
             {
+
                 using (HttpClient client = new HttpClient())
                 {
                     string token = (string)Session["token"];                    
@@ -112,6 +221,10 @@ namespace LogicomDevisFrontEnd.Controllers
                     HttpContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
                     HttpResponseMessage response = await client.PutAsync(client.BaseAddress, content).ConfigureAwait(false);
+                    if ((int)response.StatusCode == 401)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
 
 
 
@@ -122,7 +235,7 @@ namespace LogicomDevisFrontEnd.Controllers
 
             }
             /////////
-            IList<Devis> lstDevis = new List<Devis>();
+            Devis d = new Devis(); 
             using (var client = new HttpClient())
             {
                 string token = (string)Session["token"];
@@ -131,11 +244,15 @@ namespace LogicomDevisFrontEnd.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage getData = await client.GetAsync("Devis");
+                HttpResponseMessage getData = await client.GetAsync("Devis/GetDevis?id="+id);
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
                 if (getData.IsSuccessStatusCode)
                 {
                     string results = getData.Content.ReadAsStringAsync().Result;
-                    lstDevis = JsonConvert.DeserializeObject<List<Devis>>(results);
+                    d = JsonConvert.DeserializeObject<Devis>(results);
 
                 }
                 else
@@ -144,26 +261,73 @@ namespace LogicomDevisFrontEnd.Controllers
                 }
 
             }
-            ////////
-            Devis d = new Devis();
-            foreach (Devis dev in lstDevis)
+            
+           
+            return View(d);
+        }
+        public async Task<ActionResult> AfficherLignes(string id)
+        {
+            Devis devis = new Devis();
+            using (var client = new HttpClient())
             {
-                if (dev.NUMBL == id)
+                string token = (string)Session["token"];
+                client.BaseAddress = new Uri("http://localhost:44333/api/Devis?id=" + id);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage getData = await client.GetAsync(client.BaseAddress);
+                if ((int)getData.StatusCode == 401)
                 {
-                    d = dev;
-                    break;
+                    return RedirectToAction("Index", "Login");
+                }
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    devis = JsonConvert.DeserializeObject<Devis>(results);
 
                 }
+                else
+                {
+                    Console.WriteLine("Erreur calling web api");
+                }
+                ViewData.Model = devis;
+
             }
-            d.LignesDevis.Add(new LigneDevis() { NumBL = d.NUMBL });
-            return View(d);
+
+            return View();
         }
 
         public async Task<ActionResult> Create(Devis devis)
         {
             string nouveauIndex="";
 
-            IList<PointVente> pointVentes = new List<PointVente>();
+            IList<Depot> depots = new List<Depot>();
+            using (var client = new HttpClient())
+            {
+                string token = (string)Session["token"];
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                HttpResponseMessage getData = await client.GetAsync("Depot/GetDepotsParUser?codeuser=" + (string)Session["code"]);
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Authentifier", "Login");
+                }
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    depots = JsonConvert.DeserializeObject<List<Depot>>(results);
+
+                }
+                else
+                {
+                    Console.WriteLine("Erreur calling web api");
+                }
+            }
+                ViewBag.codeDepot = new SelectList(depots, "code", "code");
+
+            
 
             using (var client = new HttpClient())
             {
@@ -174,6 +338,10 @@ namespace LogicomDevisFrontEnd.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage getData = await client.GetAsync(client.BaseAddress);
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Index", "Login");
+                }
                 if (getData.IsSuccessStatusCode)
                 {
                     string results = getData.Content.ReadAsStringAsync().Result;
@@ -187,6 +355,7 @@ namespace LogicomDevisFrontEnd.Controllers
 
                 
             }
+            IList<UserPV> pointVentes = new List<UserPV>();
             using (var client = new HttpClient())
             {
                 string token = (string)Session["token"];
@@ -194,32 +363,24 @@ namespace LogicomDevisFrontEnd.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                HttpResponseMessage getData = await client.GetAsync("PointVente");
+                HttpResponseMessage getData = await client.GetAsync("UserPV/GetUtilisateurpvs?codeuser=" + (string)Session["code"]);
+                if ((int)getData.StatusCode == 401)
+                {
+                    return RedirectToAction("Authentifier", "Login");
+                }
                 if (getData.IsSuccessStatusCode)
                 {
                     string results = getData.Content.ReadAsStringAsync().Result;
-                    pointVentes = JsonConvert.DeserializeObject<List<PointVente>>(results);
+                    pointVentes = JsonConvert.DeserializeObject<List<UserPV>>(results);
 
                 }
                 else
                 {
                     Console.WriteLine("Erreur calling web api");
                 }
-                
-                ViewBag.pvs = new SelectList(pointVentes, "code", "libelle");
+                ViewBag.pvs = new SelectList(pointVentes, "codepv", "libpv"); ;
 
             }
-
-
-
-
-
-
-
-
-
-
-
             if (devis.NUMBL != null)
             {
 
@@ -231,40 +392,40 @@ namespace LogicomDevisFrontEnd.Controllers
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     var json = JsonConvert.SerializeObject(devis);
                     var data = new StringContent(json, Encoding.UTF8, "application/json");
-                    client.BaseAddress = new Uri(baseURL + "Inventaire");
+                    client.BaseAddress = new Uri(baseURL + "Devis");
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     HttpResponseMessage getData = await client.PostAsync("Devis", data);
+                    if ((int)getData.StatusCode == 401)
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
                     if (getData.IsSuccessStatusCode)
                     {
                         
                         return RedirectToAction("Index");
 
                     }
-                    else
-                    {
-                       
-                        return View("ErreurCreation");
-                    }
+                  
                 }
 
             }
-
-
+            LigneDevis ligneDevis = new LigneDevis();
+            List<LigneDevis> lignes = new List<LigneDevis>();
+            lignes.Add(ligneDevis);
             devis = new Devis
             {
                 NUMBL = nouveauIndex,
                 CODEFACTURE = "N",
-
+                LignesDevis = lignes, 
                 DATEBL = DateTime.Now,
-                mlettre = " Devis En Cours -- crée le :" + DateTime.Now.ToShortDateString() + "/ par" + ": " + devis.usera + ".",
-                commentaire = "Espérons que notre offre trouve votre entière satisfaction.Veuillez agréer, Monsieur(Madame),nos sentiments les plus distingués.",
-                commentete = "Cher Monsieur; Suite à votre demande nous avons le plaisir de vous communiquer notre meilleur offre de prix pour:",
-                valorisation = "HT"
+                valorisation = "HT",
+                usera= (string)Session["code"],
+                TAUXREMISE=0
 
-            };
-            ViewBag.nouveau = nouveauIndex;
+        };
+            
             return View(devis);
         }
     }

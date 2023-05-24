@@ -23,12 +23,7 @@ namespace LogicomDevisBackEnd
             config.Formatters.JsonFormatter
                         .SerializerSettings
                         .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            /////////// 
-            //GlobalConfiguration.Configure(WebApiConfig.Register);
-
-            //GlobalConfiguration.Configuration.Filters.Add(new AuthorizeAttribute());
-            //GlobalConfiguration.Configuration.Filters.Add(new JwtAuthenticationFilter());
-            //GlobalConfiguration.Configuration.MessageHandlers.Add(new JwtAuthenticationHandler());
+          
         }
     }
 }

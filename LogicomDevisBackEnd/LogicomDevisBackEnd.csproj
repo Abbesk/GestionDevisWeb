@@ -233,7 +233,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthorizationClass.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -277,13 +276,15 @@
     <Compile Include="Controllers\LigneDepotController.cs" />
     <Compile Include="Controllers\LigneDevisController.cs" />
     <Compile Include="Controllers\PointVenteController.cs" />
+    <Compile Include="Controllers\RepresentantController.cs" />
     <Compile Include="Controllers\SocieteController.cs" />
+    <Compile Include="Controllers\SocieteERPController.cs" />
+    <Compile Include="Controllers\SocieteUserController.cs" />
+    <Compile Include="Controllers\UserPVController.cs" />
     <Compile Include="Controllers\UtilisateurController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\article.cs">
       <DependentUpon>DevisModels.tt</DependentUpon>
     </Compile>
@@ -324,6 +325,9 @@
     <Compile Include="Models\pointvente.cs">
       <DependentUpon>DevisModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\representant.cs">
+      <DependentUpon>DevisModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\societe.cs">
       <DependentUpon>UtilisateurERPModels.tt</DependentUpon>
     </Compile>
@@ -347,6 +351,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UtilisateurERPModels.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\utilisateurpv.cs">
+      <DependentUpon>DevisModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

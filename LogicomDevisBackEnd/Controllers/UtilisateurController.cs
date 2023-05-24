@@ -1,22 +1,19 @@
 ﻿using LogicomDevisBackEnd.Models;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
+
 
 namespace LogicomDevisBackEnd.Controllers
 {
     public class UtilisateurController : ApiController
     {
+        
+
         [System.Web.Http.HttpPost]
         public IHttpActionResult Login(utilisateur utilisateur)
         {
@@ -28,24 +25,26 @@ namespace LogicomDevisBackEnd.Controllers
                     return Unauthorized();
                 }
                 else
-                {                
-                var session = Guid.NewGuid().ToString();
-                var expirationTime = DateTime.UtcNow.AddMinutes(30);
+                {
+                    var session = Guid.NewGuid().ToString();
+                    var expirationTime = DateTime.UtcNow.AddMinutes(50);
 
-                // Store the session ID in a cookie
-                var cookie = new HttpCookie("SessionID", session);
-                cookie.Expires = expirationTime;
-                HttpContext.Current.Response.Cookies.Add(cookie);
-
-                // Store the session ID and expiration time in a cache
-                HttpContext.Current.Cache[session] = expirationTime;
-                var token = GenerateToken(user);
-                return Ok(token);
+                    // Store the session ID in a cookie
+                    var cookie = new HttpCookie("SessionID", session);
+                    cookie.Expires = expirationTime;
+                    HttpContext.Current.Response.Cookies.Add(cookie);
+                    HttpContext.Current.Cache.Remove("SelectedSoc");
+                    // Store the session ID and expiration time in a cache
+                    HttpContext.Current.Cache[session] = expirationTime;
+                    var token = GenerateToken(user);
+                    
+                    return Ok(token);
                 }
 
             }
-           
+
         }
+        
         private string GenerateToken(utilisateur user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Your_Secret_Key_Here"));
@@ -60,77 +59,54 @@ namespace LogicomDevisBackEnd.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(600),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        
+
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("Api/Utilisateur/Logout")]
         public IHttpActionResult Logout()
         {
-            var sessionID = HttpContext.Current.Request.Cookies["SessionID"]?.Value;
-            if (sessionID != null)
+            var tokenCookie = HttpContext.Current.Request.Cookies["token"];
+            if (tokenCookie != null)
             {
-                // Remove the session ID from the cache
-                HttpContext.Current.Cache.Remove(sessionID);
-
-                // Expire the session ID cookie
-                var cookie = new HttpCookie("SessionID");
-                cookie.Expires = DateTime.Now.AddDays(-1);
-                HttpContext.Current.Response.Cookies.Add(cookie);
+                // Expire the token cookie
+                tokenCookie.Expires = DateTime.Now.AddDays(-1);
+                tokenCookie.Value = string.Empty;
+                tokenCookie.HttpOnly = true;
+                tokenCookie.Secure = true;
+                HttpContext.Current.Response.Cookies.Add(tokenCookie);
             }
 
             return Ok();
         }
 
-        /*public static bool ValidateToken(string token)
-                {
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var validationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Your_Secret_Key_Here")),
-                        ValidateIssuer = true,
-                        ValidIssuer = "Your_Issuer_Name",
-                        ValidateAudience = true,
-                        ValidAudience = "Your_Audience_Name",
-                        ValidateLifetime = true
-                    };
-
-                    try
-                    {
-                        SecurityToken validatedToken;
-                        var claims = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
-                        return true;
-                    }
-                    catch (Exception)
-                    {
-                        return false;
-                    }
-                }*/
+   
 
 
-
-
-
-
-
-        public bool IsValidUser(string username, string password)
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("Api/Utilisateur/ChoisirSociete")]
+        public IHttpActionResult ChoisirSociete(string soc)
         {
-            using (var db = new usererpEntities1())
+
+            if (soc != null)
             {
-                utilisateur user = db.utilisateur.Find(username);
-                if (user == null || user.motpasse != password)
-                {
-                    return false;
-                }
-               
-               
-                return true;
+                soc = soc.ToLower();
+                HttpContext.Current.Cache.Remove("SelectedSoc");
+                HttpContext.Current.Cache.Insert("SelectedSoc", soc);
+
+                return Ok();
             }
+            return BadRequest();
+
+
         }
 
+
+
+
+        
     }
 }

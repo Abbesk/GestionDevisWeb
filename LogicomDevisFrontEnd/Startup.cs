@@ -1,8 +1,8 @@
-﻿
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
+using System;
 
-[assembly: OwinStartupAttribute(typeof(LogicomDevisFrontEnd.Startup))]
+[assembly: OwinStartup(typeof(LogicomDevisFrontEnd.Startup))]
 namespace LogicomDevisFrontEnd
 {
     public partial class Startup
@@ -11,5 +11,7 @@ namespace LogicomDevisFrontEnd
         {
             ConfigureAuth(app);
         }
+
+       
     }
 }

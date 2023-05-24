@@ -1,0 +1,681 @@
+﻿@model LogicomDevisFrontEnd.Models.Devis
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Modifier devis";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            margin-top: 10px;
+            background-image: linear-gradient( #d4dcdc, #dfe4e6, #eaedef, #f5f6f7, #ffffff);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #scrollToTopButton {
+            position: fixed;
+            right: 0;
+            top: 45%;
+            transform: translate(0, -50%);
+            z-index: 9999;
+        }
+
+        #scrollToBottomButton {
+            position: fixed;
+            right: 0;
+            top: 55%;
+            transform: translate(0, -50%);
+            z-index: 9999;
+        }
+
+        .container {
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        hr {
+            border: 1px solid #000;
+        }
+
+        #ExpTable {
+            margin-right: 400px !important;
+        }
+
+        .input-bordered {
+            border-top-width: 1px;
+            border-right-width: 1px;
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+            border-top-style: solid;
+            border-right-style: solid;
+            border-bottom-style: solid;
+            border-left-style: solid;
+            border-top-color: rgb(4, 0, 253);
+            border-right-color: rgb(4, 0, 253);
+            border-bottom-color: rgb(4, 0, 253);
+            border-left-color: rgb(4, 0, 253);
+            border-image-source: initial;
+            border-image-slice: initial;
+            border-image-width: initial;
+            border-image-outset: initial;
+            border-image-repeat: initial;
+        }
+    </style>
+</head>
+<body>
+    @if (Request.Browser.IsMobileDevice)
+    {
+
+        <a href="tel:@Model.client.tel1" class="bi bi-telephone">Appeler le client</a>
+    }
+    @using (Html.BeginForm())
+    {
+        <center>
+            <center>
+                <h2>Sélectionner les articles du devis N° @Model.NUMBL </h2>
+            </center>
+            <button id="scrollToBottomButton"> <i class="fa fa-chevron-down"></i> </button>
+            <button id="scrollToTopButton" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"> <i class="fa fa-chevron-up"></i> </button>
+            <br />
+            <div class="container">
+                <table>
+                    <tr>
+                        <td>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Date:
+                                    </th>
+                                    <td>
+                                        @Html.EditorFor(model => model.DATEBL, new { htmlAttributes = new { @class = "form-control input-bordered", @readonly = "readonly" } })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Numéro:
+                                    </th>
+                                    <td>
+                                        @Html.EditorFor(model => model.NUMBL, new { htmlAttributes = new { @class = "form-control input-bordered", @readonly = "readonly" } })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        PointVente:
+                                    </th>
+
+                                    <td>
+                                        @Html.EditorFor(model => model.libpv, new { htmlAttributes = new { @class = "form-control input-bordered", @readonly = "readonly" } })
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Code client:
+                                    </th>
+                                    <td>
+                                        @Html.EditorFor(model => model.client.code, new { htmlAttributes = new { @class = "form-control input-bordered", @readonly = "readonly" } })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Adresse:
+                                    </th>
+                                    <td>
+                                        @Html.EditorFor(model => model.client.adresse, new { htmlAttributes = new { @class = "form-control input-bordered", @readonly = "readonly" } })
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Raison sociale:
+                                    </th>
+
+                                    <td>
+                                        @Html.EditorFor(model => model.RSCLI, new { htmlAttributes = new { @class = "form-control input-bordered", @readonly = "readonly" } })
+                                    </td>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </center>
+        <div class=" my-div">
+
+            <table id="ExpTable" class="table" align="center">
+                <thead>
+                    <tr>
+                        <th width="150px">
+                            Depôt
+                        </th>
+                        <th width="250px">
+                            Code famille
+                        </th>
+                        <th width="500px">
+                            Code article
+                        </th>
+                        <th width="500px">
+                            Désignation
+                        </th>
+                        <th width="80px">
+                            PU
+                        </th>
+                        <th width="50px">
+                            TVA
+                        </th>
+                        <th width="80px">
+                            Unité
+                        </th>
+                        <th width="130px">
+                            Quantité
+                        </th>
+
+                        <th width="60px">
+                            Remise
+                        </th>
+                        <th>
+                        </th>
+                        <th width="300px">
+                            PHT
+                        </th>
+                        <th width="300px">
+                            PTTC
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.LignesDevis.Count; i++)
+                    {
+                        <tr data-row-id="@i">
+                            <td>
+                                @*Html.DropDownListFor(x => x.LignesDevis[i].codedep, ViewBag.codeDepot as SelectList, new { @class = "form-control input-bordered depot-select", data_row_index = i, style = "width: 71px; height: 50px;" })*@
+                                <select class="form-control input-bordered depot-select" name="LignesDevis[@i].codedep" data-row-index="@i" style="height: 50px; width: 71px;" id="depot-select-@i">
+                                    <option value="">Sélectionnez un code de dépôt</option>
+                                    <option value="@Model.LignesDevis[i].codedep" selected>@Model.LignesDevis[i].codedep</option>
+                                    @foreach (var codeDepot in ViewBag.codeDepot)
+                                    {
+                                        if (codeDepot.Value != Model.LignesDevis[i].codedep)
+                                        {
+                                            <option value="@codeDepot.Value">@codeDepot.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control input-bordered famille-select" name="LignesDevis[@i].famille" data-row-index="@i" id="famille-select-@i" style="width: 120px; height: 50px;">
+                                    <option value="@Model.LignesDevis[i].famille" selected>@Model.LignesDevis[i].famille</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control input-bordered article-select" name="LignesDevis[@i].CodeART" data-row-index="@i" id="article-select-@i" style="width: 200px; height: 50px;">
+                                    <option value="@Model.LignesDevis[i].CodeART" selected>@Model.LignesDevis[i].CodeART</option>
+                                </select>
+                            </td>
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].DesART, new { htmlAttributes = new { @class = "form-control input-bordered desart-select", id = "desart-input", @readonly = "readonly", style = "width: 288px; height: 50px;" } })
+                            </td>
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].PUART, new { htmlAttributes = new { @class = "form-control input-bordered puart-select", id = "puart-input", @readonly = "readonly", style = "width: 120px; height: 50px;" } })
+                            </td>
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].TauxTVA, new { htmlAttributes = new { @class = "form-control input-bordered tva-select", id = "tauxtva-input", @readonly = "readonly", style = "width: 50px; height: 50px;" } })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].Unite, new { htmlAttributes = new { @class = "form-control input-bordered unite-select", @readonly = "readonly", style = "width: 75px; height: 50px;" } })
+                            </td>
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].QteART, new { htmlAttributes = new { @class = "form-control input-bordered qteart-select", style = "width: 80px; height: 50px;" } })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].Remise, new { htmlAttributes = new { @class = "form-control input-bordered remise-select", id = "remise-input", style = "width: 50px; height: 50px;" } })
+                            </td>
+                            <td style=" width: 50px;">
+                                @if (i == Model.LignesDevis.Count - 1)
+                                {
+                                    <a id="btnremove-@i" onclick="DeleteItem(this)" class="btn btn-default invisible">
+                                        <i class="fa fa-solid fa-trash" style="color: #ff0000;"></i>
+                                    </a>
+                                    <a id="btnadd-@i" onclick="AddItem(this)" class="btn btn-default">
+                                        <i class="fa fa-solid fa-plus"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a id="btnremove-@i" onclick="DeleteItem(this)" class="btn btn-default">
+                                        <i class="fa fa-solid fa-trash" style="color: #ff0000;"></i>
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].mtht, new { htmlAttributes = new { @class = "form-control input-bordered pht-select", @readonly = "readonly", style = "width: 80px; height: 50px;" } })
+                            </td>
+                            <td>
+                                @Html.EditorFor(x => x.LignesDevis[i].mttc, new { htmlAttributes = new { @class = "form-control input-bordered pptc-select", @readonly = "readonly", style = "width: 80px; height: 50px;" } })
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <table id="ExpTable1" class="table table-striped table-sm">
+                    <thead>
+                        <tr>  
+                            <th>
+                                Montant remise
+                            </th>
+                            <th>
+                                Total HT
+                            </th>
+                            <th>
+                                Total TTC
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>                         
+                            <td>
+                                <input class="form-control input-bordered tauxRemise-Select" id="MREMISE" width="70" name="TAUXREMISE" readonly="readonly" value="@Model.TAUXREMISE" />
+                            </td>
+                            <td>
+                                <input class="form-control input-bordered tauxht-Select" id="tauxht" width="70" name="MHT" readonly="readonly" value="@Model.MHT" />
+                            </td>
+                            <td>
+                                <input class="form-control input-bordered tauxttc-Select" id="tauxttc" width="70" name="MTTC" readonly="readonly" value="@Model.MTTC" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" id="hdnLastIndex" value="@(Model.LignesDevis.Count-1)" />
+        <div class="col-6 form-group text-left p-2">
+            <center> <input type="submit" value="Ajouter les articles" class="btn btn-default" /></center>
+        </div>
+    }
+    @section Scripts{
+        <script>
+            function updateTotals() {
+                var mthtTotal = 0;
+                var mttcTotal = 0;
+                var montantRemise = 0;
+                $('.pht-select').each(function () {
+                    var value = parseFloat($(this).val());
+                    if (!isNaN(value)) {
+                        mthtTotal += value;
+                    }
+                });
+                $('.pptc-select').each(function () {
+                    var value = parseFloat($(this).val());
+                    if (!isNaN(value)) {
+                        mttcTotal += value;
+                    }
+                });
+                $('.puart-select').each(function () {
+                    var $row = $(this).closest("tr");
+                    var $remiseArtSelect = $row.find(".remise-select");
+                    var $qteart = $row.find(".qteart-select");
+                    var value = parseFloat($(this).val());
+                    var q = parseFloat($qteart.val());
+                    var rem = parseFloat($remiseArtSelect.val());
+                    if (!isNaN(value) && !isNaN(q) && !isNaN(rem)) {
+                        montantRemise += value * q * rem * 0.01;
+                    }
+                });
+
+
+                $('#MREMISE').val(montantRemise.toFixed(3));
+                $('#tauxht').val(mthtTotal.toFixed(3));
+                $('#tauxttc').val(mttcTotal.toFixed(3));
+            }
+                   let rowIndex;
+                    $("form").on("change", ".depot-select", function (e) {
+                    e.preventDefault()
+                        var codePV ="@Model.PointVente.Code";
+                    var $row = $(this).closest("tr");
+                    rowIndex = $(this).data("row-index");
+                    var $familleSelect = $row.find(".famille-select");
+                    var $articleSelect = $row.find(".article-select");
+                    var codeDepot = $(this).val();
+                    var qteart = $row.find(".qteart-select");
+                    var $pht = $row.find(".pht-select");
+                    var $pptc = $row.find(".pptc-select");
+                    var $desArtSelect = $row.find(".desart-select");
+                    var $puArtSelect = $row.find(".puart-select");
+                    var $tauxTVAArtSelect = $row.find(".tva-select");
+                    var $remiseArtSelect = $row.find(".remise-select");
+                    var $prixNetArtSelect = $row.find(".mttc-select");
+                    var apiUrlFamille = "http://localhost:44333/api/LigneDepot/FetchLigneDepotParDepEtPv?codedep=" + codeDepot + "&codepv=" + codePV;
+                $.ajax({
+                    url: apiUrlFamille,
+                    type: "GET",
+                    headers: { "Authorization": "Bearer " + "@Session["token"]" },
+                    dataType: "json",
+                    success: function (data) {
+                        $pht.val(0);
+                        $pptc.val(0);
+                        qteart.val(0);
+                        $desArtSelect.val("");
+                        $puArtSelect.val(0);
+                        $tauxTVAArtSelect.val(0);
+                        $remiseArtSelect.val(0);
+                        $prixNetArtSelect.val(0);
+                        updateTotals();
+                        $familleSelect.empty();
+                        $familleSelect.removeAttr("disabled");
+                        $familleSelect.append("<option value=''>Selectionner une famille</option>");
+                        $articleSelect.empty();
+                        $articleSelect.removeAttr("disabled");
+                        $articleSelect.append("<option value=''>Selectionner un article</option>");
+                        var familles = [];
+                        var codesArticles = [];
+                        for (var i = 0; i < data.length; i++) {
+                            if (!familles.includes(data[i].famille)) {
+                                 if (!familles.includes(data[i].famille))
+                                familles.push(data[i].famille);
+                                $familleSelect.append("<option value='" + data[i].famille + "'>" + data[i].famille + "</option>");
+                            }
+                            if (!codesArticles.includes(data[i].codeart)) {
+                                if (!codesArticles.includes(data[i].codeart))
+                                    codesArticles.push(data[i].codeart);
+                                $articleSelect.append("<option value='" + data[i].codeart + "'>" + data[i].codeart + "</option>");
+                            }
+                        }
+                    }
+                    ,
+                    error: function () {
+                        window.location.href = "/login/index";
+                    }
+                });
+            },);
+            $(document).on("change", ".famille-select", function ()
+            {
+                 var $row = $(this).closest("tr");
+                 var famille = $(this).val();
+                 var codePV = "@Model.PointVente.Code";
+                 var codedep = $row.find(".depot-select").val();
+                 var $articleSelect = $row.find(".article-select");
+                 var qteart = $row.find(".qteart-select");
+                 var $pht = $row.find(".pht-select");
+                 var $pptc = $row.find(".pptc-select");
+                 $articleSelect.empty();
+                 $articleSelect.append("<option value=''>Sélectionner un article</option>");
+                 var $desArtSelect = $row.find(".desart-select");
+                 var $puArtSelect = $row.find(".puart-select");
+                 var $tauxTVAArtSelect = $row.find(".tva-select");
+                 var $remiseArtSelect = $row.find(".remise-select");
+                 var $prixNetArtSelect = $row.find(".mttc-select");
+                if (famille === "Selectionner une famille") {
+                    var apiUrlFamille = "http://localhost:44333/api/LigneDepot/FetchLigneDepotParDepEtPv?codedep=" + codeDepot + "&codepv=" + codePV;
+                    $.ajax({
+                        url: apiUrlFamille,
+                        type: "GET",
+                        headers: { "Authorization": "Bearer " + "@Session["token"]" },
+                        dataType: "json",
+                        success: function (data) {
+                            qteart.val(0);
+                            $pht.val(0);
+                            $pptc.val(0);
+                            $desArtSelect.val("");
+                            $puArtSelect.val(0);
+                            $tauxTVAArtSelect.val(0);
+                            $remiseArtSelect.val(0);
+                            $prixNetArtSelect.val(0);
+                            updateTotals();
+                            var codesArticles = [];
+                            for (var i = 0; i < data.length; i++) {
+                                if (!codesArticles.includes(data[i].codeart)) {
+
+                                        codesArticles.push(data[i].codeart);
+                                    $articleSelect.append("<option value='" + data[i].codeart + "'>" + data[i].codeart + "</option>");
+                                }
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            window.location.href = "/login/index";
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: "http://localhost:44333/api/LigneDepot/FetchLigneDepotParDepEtPv?codedep=" + codedep + "&codepv=" + codePV,
+                        type: "GET",
+                        headers: { "Authorization": "Bearer " + "@Session["token"]" },
+                        success: function (data) {
+                            qteart.val(0);
+                            $pht.val(0);
+                            $pptc.val(0);
+                            $desArtSelect.val("");
+                            $puArtSelect.val(0);
+                            $tauxTVAArtSelect.val(0);
+                            $remiseArtSelect.val(0);
+                            $prixNetArtSelect.val(0);
+                            updateTotals();
+                            var articles = [];
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].famille === famille && !articles.includes(data[i].codeart)) {
+                                    articles.push(data[i].famille);
+                                    $articleSelect.append("<option value='" + data[i].codeart + "'>" + data[i].codeart + "</option>");
+                                }
+                            }
+                            //$("#desart-input").val($("#codeart-select option:selected").text());
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            window.location.href = "/login/index";
+                        }
+                    });
+                }
+        });
+                   $(document).on("change", ".article-select", function () {
+                updateTotals();
+                        var $row = $(this).closest("tr");
+                        var famille = $row.find(".famille-select").val();
+                        var codeart = $(this).val();
+                        var $qteart = $row.find(".qteart-select");
+                        var $pht = $row.find(".pht-select");
+                        var $pptc = $row.find(".pptc-select");
+                        var desArtSelect = $row.find(".desart-select");
+                        var puArtSelect = $row.find(".puart-select");
+                        var tauxTVAArtSelect = $row.find(".tva-select");
+                        var $remiseArtSelect = $row.find(".remise-select");
+                        var prixNetArtSelect = $row.find(".mttc-select");
+                        var uniteSelect = $row.find(".unite-select");
+                        $qteart.removeAttr("disabled");
+                        $remiseArtSelect.removeAttr("disabled");
+                        $.ajax({
+                            type: "GET",
+                            url: "http://localhost:44333/api/Article/FetchLigneDepotParDepEtPvEtCodeArt?codeart=" + codeart ,
+                            headers: { "Authorization": "Bearer " + "@Session["token"]" },
+                            success: function (data) {
+                                $qteart.val(0);
+                                $remiseArtSelect.val(0);
+                                $pht.val(0);
+                                $pptc.val(0);
+                                updateTotals();
+                                $.each(data, function (index, item) {
+                                    if (item.code === codeart) {
+                                        $row.find(".famille-select").val(item.fam);
+                                        desArtSelect.val(item.libelle);
+                                        puArtSelect.val(item.prixbrut);
+                                        tauxTVAArtSelect.val(item.tauxtva);
+                                        prixNetArtSelect.val(item.prixnet);
+                                        uniteSelect.val(item.unite);
+                                    }
+                                });
+                            },
+                              error: function (jqXHR, textStatus, errorThrown) {
+                                  window.location.href = "/login/index";
+                            }
+                        });
+            })
+             $(document).on("change", ".qteart-select", function() {
+    
+                 var $row = $(this).closest("tr");
+                 var qte = $(this).val();
+                 var codedep = $row.find(".depot-select").val();
+                 var codea = $row.find(".article-select").val();
+                 var famille = $row.find(".famille-select").val();
+                 var codePV = $("#pvSelect").val();
+                 var $qteart = $(this);
+                 var $pht = $row.find(".pht-select");
+                 var $pptc = $row.find(".pptc-select");
+                 var puArtSelect = $row.find(".puart-select").val();
+                 var remiseArtSelect = $row.find(".remise-select").val();
+                 var tauxTVAArtSelect = $row.find(".tva-select").val();
+                 var desArt = $row.find(".desart-select").val();
+                 
+                 if (parseFloat(qte) < 0) {
+                     $qteart.val(0);
+                     $pht.val(0);
+                     $pptc.val(0);
+                 }
+                 $pht.val((parseFloat(qte) * parseFloat(puArtSelect) * (1 - 0.01 * parseFloat(remiseArtSelect))).toFixed(3));
+                 $pptc.val((parseFloat(qte) * parseFloat(puArtSelect) * (1 + 0.01 * parseFloat(tauxTVAArtSelect) - 0.01 * parseFloat(remiseArtSelect))).toFixed(3));
+                 updateTotals();
+    $.ajax({
+        type: 'GET',
+        url: "http://localhost:44333/api/LigneDepot/VerifierQuantite?codedep=" + codedep + '&codepv=' + codePV + '&codeArt=' + codea + '&fam=' + famille,
+        headers: {
+            "Authorization": "Bearer " + "@Session["token"]"
+        },
+        success: function(result) {
+            if (result < qte) {
+                Swal.fire({
+                    title: "Quantité en stock insuffisante",
+                    text: "La quantité en stock est inférieure à la quantité demandée.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Envoyer un email",
+                    cancelButtonText: "Fermer",
+                    reverseButtons: true
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        window.location.href = "mailto:" + codePV + "?subject=Demande de quantité&qte=" + qte + "&body=Je souhaite commander " + qte + " unité(s) de l'article ayant le code " + codea + ", la désignation " + desArt + " de la famille " + famille + ".";
+                    }
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            // Gérer les erreurs ici
+            console.log('Erreur lors de l\'appel API: ' + textStatus + ', ' + errorThrown);
+        }
+    });
+    
+    updateTotals();
+            });
+                    $(document).on("change", ".remise-select", function () {
+                        var $row = $(this).closest("tr");
+                        var qte = $row.find(".qteart-select").val();
+                        var codea = $row.find(".article-select").val();
+                        var famille = $row.find(".famille-select").val();
+                        var codepv = "@Model.PointVente.Code";
+                        var $remise = $(this);
+                        var $pht = $row.find(".pht-select");
+                        var $pptc = $row.find(".pptc-select");
+                        var puArtSelect = $row.find(".puart-select").val();
+                        var remise = $(this).val();
+                        var t = -1;
+                        var tauxTVAArtSelect = $row.find(".tva-select").val();
+                        if (parseFloat(remise) < 0) {
+                            $remise.val(0);
+                            $pht.val(parseFloat(qte) * parseFloat(puArtSelect) * 1);
+                            $pptc.val(parseFloat(qte) * parseFloat(puArtSelect) * (1 + 0.01 * parseFloat(tauxTVAArtSelect)));
+                        }
+                        $.ajax({
+                            type: "GET",
+                            headers: { "Authorization": "Bearer " + "@Session["token"]" },
+                            url: "http://localhost:44333/api/Article/GetRemiseArticle?fam=" + famille + "&codeart=" + codea,
+                            success: function (data) {
+                                if (parseFloat(data) < parseFloat(remise) && parseFloat(qte)>0 ) {
+                                    $remise.val(0);
+                                    $pht.val(parseFloat(qte) * parseFloat(puArtSelect) * 1);
+                                    $pptc.val(parseFloat(qte) * parseFloat(puArtSelect) * (1 + 0.01 * parseFloat(tauxTVAArtSelect) ));
+                                    alert("Vous avez dépassé la marge de remise. Marge légale :  " + data);
+                                    updateTotals();
+
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                window.location.href = "/login/index";
+                            }
+                        });
+                        if (   parseFloat(qte) > 0 ) {
+                            $pht.val(parseFloat(qte) * parseFloat(puArtSelect) * (1 - 0.01 * parseFloat(remise)));
+                            $pptc.val(parseFloat(qte) * parseFloat(puArtSelect) * (1 + 0.01 * parseFloat(tauxTVAArtSelect) - 0.01 * parseFloat(remise)));
+                            t = 0;
+                            updateTotals();
+                        }
+                        
+                    });
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+            function DeleteItem(btn) {
+                $(btn).closest('tr').remove();
+                updateTotals();
+            }
+            function AddItem(btn) {
+                var table = document.getElementById('ExpTable');
+                var rows = table.getElementsByTagName('tr');
+                var rowOuterHtml = rows[rows.length - 1].outerHTML;
+                var lastrowIdx = document.getElementById('hdnLastIndex').value;
+                var nextrowIdx = eval(lastrowIdx) + 1;
+                document.getElementById('hdnLastIndex').value = nextrowIdx;
+                rowOuterHtml = rowOuterHtml.replaceAll('_' + lastrowIdx + '_', '_' + nextrowIdx + '_');
+                rowOuterHtml = rowOuterHtml.replaceAll('[' + lastrowIdx + ']', '[' + nextrowIdx + ']');
+                rowOuterHtml = rowOuterHtml.replaceAll('-' + lastrowIdx, '-' + nextrowIdx);
+                var newRow = table.insertRow();
+                newRow.innerHTML = rowOuterHtml;
+                var btnAddID = btn.id;
+                var btnDeleteid = btnAddID.replaceAll('btnadd', 'btnremove');
+                var delbtn = document.getElementById(btnDeleteid);
+                delbtn.classList.add("visible");
+                delbtn.classList.remove("invisible");
+                var addbtn = document.getElementById(btnAddID);
+                addbtn.classList.remove("visible");
+                addbtn.classList.add("invisible");
+                var newRowIndex = nextrowIdx;
+                var familleSelect = document.getElementById("famille-select-" + newRowIndex);
+                var articleSelect = document.getElementById("article-select-" + newRowIndex);
+                var depotSelect = document.getElementById("depot-select-" + newRowIndex);
+                var selectOption = depotSelect.querySelector('option[value=""]');
+                selectOption.selected = true;
+                familleSelect.disabled = true;
+                articleSelect.disabled = true;
+                familleSelect.innerHTML = "";
+                articleSelect.innerHTML = "";
+                newRow.querySelector('.desart-select').value = '';
+                newRow.querySelector('.puart-select').value = '';
+                newRow.querySelector('.tva-select').value = '';
+                newRow.querySelector('.unite-select').value = '';
+                newRow.querySelector('.qteart-select').value = '';
+                newRow.querySelector('.remise-select').value = '';
+                newRow.querySelector('.pht-select').value = '';
+                newRow.querySelector('.pptc-select').value = '';
+                updateTotals();
+            }
+            $(function () {
+                $('#scrollToBottomButton').click(function () {
+                    $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+                    return false;
+                });
+            });
+            function scrollToTop() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        </script>
+    }
+</body>
+</html>

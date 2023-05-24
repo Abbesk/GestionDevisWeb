@@ -2,30 +2,304 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        .titreGraphe {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-content: center;
+            margin-left: 120px;
+            white-space: nowrap;
+            justify-content: center;
+        }
+        .diagramme {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            margin-top: 1px;
+        }
+
+        canvas {
+            width: 900px !important;
+            height: 400px !important;
+            z-index: 9999 !important;
+            margin-top: auto;
+        }
+
+        .main-container {
+            grid-area: main;
+            overflow-y: auto;
+            padding: 20px 20px;
+            margin-top: 0 !important;
+        }
+
+        .main-title {
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .main-title > p {
+                font-size: 20px;
+            }
+
+        .main-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 25px;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            border: 1px solid #d2d2d3;
+            border-radius: 5px;
+            box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+        }
+
+            .card:first-child {
+                border-left: 7px solid #246dec;
+            }
+
+            .card:nth-child(2) {
+                border-left: 7px solid #f5b74f;
+            }
+
+            .card:nth-child(3) {
+                border-left: 7px solid #367952;
+            }
+
+            .card:nth-child(4) {
+                border-left: 7px solid #cc3c43;
+            }
+
+            .card > span {
+                font-size: 20px;
+                font-weight: 600;
+            }
+
+        .card-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            .card-inner > p {
+                font-size: 18px;
+            }
+
+            .card-inner > span {
+                font-size: 35px;
+            }
+
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .charts-card {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            padding: 25px;
+            box-sizing: border-box;
+            -webkit-column-break-inside: avoid;
+            border: 1px solid #d2d2d3;
+            border-radius: 5px;
+            box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 600;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+
+
+    <main class="main-container">
+        <div class="main-title">
+            <p class="font-weight-bold">DASHBOARD</p>
+        </div>
+
+        <div class="main-cards">
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Nombre de devis de cette année</p>
+                    <span class="material-icons-outlined text-blue">
+                        calendar_month
+                    </span>
+                </div>
+                <span class="text-primary font-weight-bold">@ViewBag.nbDevisTotalAnneeEnCours</span>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Moyenne de devis chaque mois  </p>
+                    <span class="material-icons-outlined text-orange">
+                        timeline
+                    </span>
+                </div>
+                <span class="text-primary font-weight-bold">@ViewBag.MoyenneParMOIS</span>
+            </div>
+
+            <div class="card">
+                <div class="card-inner">
+                    <p class="text-primary">Nombre de devis générés en @DateTime.Now.Year</p>
+                    <span class="material-icons-outlined text-green">shopping_cart</span>
+                </div>
+                <span class="text-primary font-weight-bold">@ViewBag.nbDevisAnneeExecutes</span>
+            </div>
+
+            <div class="card ">
+                <div class="card-inner">
+                    <p class="text-primary">Devis ouverts en @DateTime.Now.Year</p>
+                    <span class="material-icons-outlined text-red">notification_important</span>
+                </div>
+                <span class="text-primary font-weight-bold">@ViewBag.nbDevisAnneeOuverts</span>
+            </div>
+
+        </div>
+
+        <div class="charts titreGraphe">
+
+            <div class="charts-card">
+                <p class="chart-title">Graphique linéaire des devis créés, exécutés et non exécutés de cette année</p>
+                <div id="area-chart"></div>
+            </div>
+
+           
+            </div>
+        
+        
+
+    </main>
+    <center>
+        <div class="charts-card diagramme">
+
+            <canvas id="myChart"></canvas>
+        </div>
+    </center>
+
+    <!-- Script pour récupérer les données et initialiser le graphique -->
+    <script>
+        var token = "@Session["token"]";
+       $.ajax({
+           url: "http://localhost:44333/api/Devis",
+           type: "GET",
+  headers: { "Authorization": "Bearer " + "@Session["token"]" },
+  dataType: "json",
+  success: function(data) {
+    var devis = data;
+
+    // Créer trois tableaux pour stocker les données des devis créés cette année, des devis exécutés et des devis non exécutés
+    var devis_crees = [];
+    var devis_executes = [];
+    var devis_non_executes = [];
+
+    // Bouclez à travers les devis et ajoutez-les aux tableaux appropriés en fonction de leur état d'exécution
+      for (var i = 0; i < 12; i++) {
+          // Filtrer les devis créés pour ce mois
+          var devis_crees_mois = devis.filter(function (devis) {
+              var datebl = new Date(devis.DATEBL);
+              return datebl.getMonth() === i && datebl.getFullYear() === new Date().getFullYear();
+          });
+          // Ajouter le nombre de devis créés pour ce mois au tableau devis_crees
+          devis_crees.push(devis_crees_mois.length);
+
+          // Filtrer les devis exécutés pour ce mois
+          var devis_executes_mois = devis_crees_mois.filter(function (devis) {
+              return devis.executer === "G";
+          });
+          // Ajouter le nombre de devis exécutés pour ce mois au tableau devis_executes
+          devis_executes.push(devis_executes_mois.length);
+
+          // Calculer le nombre de devis non exécutés pour ce mois
+          var devis_non_executes_mois = devis_crees_mois.length - devis_executes_mois.length;
+          // Ajouter le nombre de devis non exécutés pour ce mois au tableau devis_non_executes
+          devis_non_executes.push(devis_non_executes_mois);
+      }
+
+    // Créer un objet de configuration pour le graphique
+               var config = {
+                   type: 'line',
+                   data: {
+                       labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                       datasets: [{
+                           label: 'Devis créés',
+                           data: devis_crees,
+                           fill: false,
+                           borderColor: 'red'
+                       }, {
+                           label: 'Devis exécutés',
+                           data: devis_executes,
+                           fill: false,
+                           borderColor: 'green'
+                       }, {
+                           label: 'Devis non exécutés',
+                           data: devis_non_executes,
+                           fill: false,
+                           borderColor: 'orange'
+                       }]
+                   },
+                   options: {
+                       responsive: true,
+                       plugins: {
+                           title: {
+                               display: true,
+                               text: 'Devis créés, exécutés et non exécutés de cette année'
+                           },
+                           tooltip: {
+                               mode: 'index',
+                               intersect: false
+                           }
+                       },
+                       scales: {
+                           x: {
+                               title: {
+                                   display: true,
+                                   text: 'Mois'
+                               }
+                           },
+                           y: {
+                               title: {
+                                   display: true,
+                                   text: 'Nombre'
+                               }
+                           }
+                       }
+                   }
+               };
+
+               // Créer un nouveau graphique avec le canvas HTML et l'objet de configuration
+               var myChart = new Chart(document.getElementById('myChart'), config);
+           },
+           error: function (xhr, status, error) {
+               // Gérer l'erreur de requête Ajax ici
+           }
+       });
+
+    </script>
+</body>

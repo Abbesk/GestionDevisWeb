@@ -1,46 +1,93 @@
 ﻿@model IEnumerable<LogicomDevisFrontEnd.Models.Devis>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Liste des devis";
+}
+<head>
 
-<table class="table">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin-top: 10px;
+            background-image: linear-gradient( #d4dcdc, #dfe4e6, #eaedef, #f5f6f7, #ffffff);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 
 
+        hr {
+            border: 1px solid #000;
+        }
+
+        #datepicker {
+            border: 1px solid #ccc;
+            padding: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<table class="table" style="margin: 12px;">
     <tr>
-        <td >
-            <strong>Rechercher par client: </strong>
+        <td style="vertical-align: middle; ">
+
+            <i class="fa-solid fa-magnifying-glass fa-lg" style="color: #9269c3;"></i>
+            <strong>Client:</strong>
         </td>
-        <td>
-            <input class="form-control" type="text" id="nom_cli" size="10" onkeyup="filtrerNomCli()" />
+        <td style="vertical-align: middle;">
+            <input class="form-control" type="text" placeholder="Chercher.." id="nom_cli" size="10" onkeyup="filtrerNomCli()" />
         </td>
-        <td>
-        </td>
-        <td>
+        <td style="vertical-align: middle;"></td>
+        <td style="vertical-align: middle; ">
+
+            <i class="fa-solid fa-magnifying-glass fa-lg" style="color: #9269c3;"></i>
             <strong>Numéro:</strong>
         </td>
-        <td>
-            <input class="form-control" type="text" id="tel_cli" name="tel_cli"
-                   size="10" onkeyup="filtrerTelCli()">
+        <td style="vertical-align: middle;">
+            <input class="form-control" type="text" placeholder="Chercher.." id="tel_cli" name="tel_cli" size="10" onkeyup="filtrerTelCli()">
         </td>
-        <td>
+        <td style="vertical-align: middle;"></td>
+        <td style="vertical-align: middle; ">
+
+            <i class="fa-solid fa-magnifying-glass fa-lg" style="color: #9269c3;"></i>
+            <strong>Point de vente:</strong>
         </td>
-        <td>
-            <strong>Point de Vente:</strong>
-        </td>
-        <td>
+        <td style="vertical-align: middle;">
             <select class="form-control" id="codepv" name="codepv" onchange="filterTable()">
-                <option value=""></option>
+                <option value="">Chercher..</option>
                 @foreach (var pv in ViewBag.pvs)
                 {
-                    <option value="@pv.Libelle">@pv.Libelle</option>
+                    <option value="@pv.libpv">@pv.libpv</option>
                 }
             </select>
         </td>
+        <td style="vertical-align: middle;">
 
+            <i class="fa-solid fa-magnifying-glass fa-lg" style="color: #9269c3;"></i>
+            <strong>Date:</strong>
+        </td>
+        <td>
+            <input class="form-control" type="date" id="datepicker" onchange="filterTableParDate()">
+
+
+        </td>
     </tr>
-
-
-
 </table>
+<hr />
+<br />
 <table class="table" id="tableLstDevis">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayName("Numéro")
         </th>
@@ -71,54 +118,98 @@
         </th>
 
         <th>
-            @Html.DisplayName("Cloturé")
+            @Html.DisplayName("Clôturé")
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NUMBL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.client.rsoc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.client.tel1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DATEBL, "{0:dd - M - yy}")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MTTC)
+<tr>
+    @if (item.DATEBL.HasValue && item.DATEBL.Value.AddDays(15) < DateTime.Now)
+    {
+        <td>
+            <span class="exclamation-icon">&#9888;</span>
+        </td>
+    }
+    else
+    {
+        <td></td>
+    }
+    <td>
+        @Html.DisplayFor(modelItem => item.NUMBL)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.client.rsoc)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.client.tel1)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DATEBL)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MTTC)
 
-            <td>
-                @Html.DisplayFor(modelItem => item.RSCLI)
-            </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RSCLI)
+    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.DATEDMAJ)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.libpv)
-            </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DATEDMAJ)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.libpv)
+    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.cloturer)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.NUMBL }) |
-                @Html.ActionLink("Details", "SelectionnerArticles", new { id = item.NUMBL }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.NUMBL })
-            </td>
-        </tr>
+    <td style="white-space: nowrap;" width="120px">
+        @if (item.datelimit > DateTime.Now)
+        {
+            <a href="@Url.Action("Edit", new { id =item.NUMBL})" class="btn btn-default">
+                <i class="fa fa-pencil" style="color: #1cca1e;"></i>
+            </a>
+        }
+        <a href="@Url.Action("AfficherLignes", new { id =item.NUMBL})" class="btn btn-default">
+            <i class="fa-sharp fa-solid fa-circle-info" style="color: #1cca1e;"></i>
+        </a>
+        <a href="@Url.Action("Delete", new { id =item.NUMBL })" class="btn btn-default" title="Supprimer" onclick="return confirmDelete(event)">
+            <i class="fa fa-solid fa-trash" style="color: #ff0000;"></i>
+        </a>
+
+
+    </td>
+</tr>
     }
 
 </table>
 @section Scripts {
     <script>
+        function confirmDelete(event) {
+            event.preventDefault(); 
+            Swal.fire({
+                title: 'Etes vous sûr?',
+                text: "Vous ne pouvez plus récupérer ce devis!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Supprimé!',
+                        'La suprresion est effectuée avec succées.',
+                        'success'
+                    ).then(() => {
+                        setTimeout(() => {
+                            Swal.close(); // close the dialog after 2 seconds
+                            window.location.href = event.target.href; // navigate to the delete action
+                        }, 500);
+                    });
+                }
+            });
+        }
+
         function filtrerNomCli() {
             var filtre, tableau, ligne, cellule, i, texte
             filtre = document.getElementById("nom_cli").value.toUpperCase();
@@ -126,7 +217,7 @@
             ligne = tableau.getElementsByTagName("tr");
             for (i = 0; i < ligne.length; i++) {
 
-                cellule = ligne[i].getElementsByTagName("td")[1];
+                cellule = ligne[i].getElementsByTagName("td")[2];
                 if (cellule) {
                     texte = cellule.innerHTML.toUpperCase();
                     if (texte.indexOf(filtre) > -1) {
@@ -148,7 +239,7 @@
             ligne = tableau.getElementsByTagName("tr");
             for (i = 0; i < ligne.length; i++) {
 
-                cellule = ligne[i].getElementsByTagName("td")[2];
+                cellule = ligne[i].getElementsByTagName("td")[3];
                 if (cellule) {
                     texte = cellule.innerHTML;
                     if (texte.indexOf(filtre) > -1) {
@@ -162,7 +253,7 @@
             }
         }
     </script>
-    
+
     <script>
         function filterTable() {
             var selectedOption = $("#codepv").val().toUpperCase();
@@ -171,7 +262,7 @@
             tableRows.each(function (index, row) {
                 if (index > 0) { // skip the first row (the header row)
                     var cells = $(row).find("td");
-                    var libpv = cells.eq(7).text().toUpperCase();
+                    var libpv = cells.eq(8).text().toUpperCase();
 
                     if (libpv.indexOf(selectedOption) > -1) {
                         $(row).show();
@@ -182,4 +273,30 @@
             });
         }
     </script>
+    <script>
+        function filterTableParDate() {
+            // Get the selected date
+            var selectedDate = document.getElementById("datepicker").value;
+
+            // Loop through the rows of the table
+            var rows = document.getElementById("tableLstDevis").getElementsByTagName("tr");
+            for (var i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+                // Get the date from the fourth cell of the row
+                var date = rows[i].getElementsByTagName("td")[4].textContent.trim();
+
+                // Parse the date using Moment.js
+                var parsedDate = moment(date, "DD/MM/YYYY");
+
+                // Compare the selected date to the date in the row
+                if (selectedDate && !parsedDate.isSame(selectedDate, "day")) {
+                    // Hide the row if the dates don't match
+                    rows[i].style.display = "none";
+                } else {
+                    // Show the row if the dates match
+                    rows[i].style.display = "";
+                }
+            }
+        }
+    </script>
+
 }
