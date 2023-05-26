@@ -23,11 +23,25 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Accueil", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Choisir société", "Choisir", "Login")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Choisir société", "Choisir", "Login")</li>
                     <li>@Html.ActionLink("Liste devis", "Index", "Devis")</li>
                     <li>@Html.ActionLink("Créer devis", "Create", "Devis")</li>
                     <li>@Html.ActionLink("Créer client", "CreateClient", "Devis")</li>
+                    
+                    
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Autres modules
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="http://localhost:44377/Inventaire/">Inventaire</a></li>
+                        </ul>
+
+                    </li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
